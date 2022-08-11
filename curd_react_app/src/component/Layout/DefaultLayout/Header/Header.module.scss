@@ -1,0 +1,55 @@
+.header {
+  z-index: 9;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background-color: var(--background-color);
+  align-items: center;
+  padding: 20px;
+  border: 1px solid var(--gray200);
+
+  .header__title {
+    width: 69px;
+    height: 36px;
+    font-weight: var(--font-bold);
+    font-size: nomal;
+    font-size: var(--text-xl1);
+    line-height: 150%;
+    color: var(--gray800);
+  }
+
+  .header__information {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+
+    .bell_icon {
+      padding: 4px;
+      margin-right: 12px;
+      font-size: 1.3rem;
+      transition: background 0.3s linear;
+
+      &:hover {
+        cursor: pointer;
+        transform: scale(1.2);
+      }
+    }
+
+    img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: solid 1px var(--gray300);
+      transition: background 0.3 linear;
+
+      &:hover {
+        cursor: pointer;
+        transform: scale(1.2);
+      }
+    }
+  }
+}
