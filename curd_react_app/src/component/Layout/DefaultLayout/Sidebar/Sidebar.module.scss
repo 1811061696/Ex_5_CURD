@@ -1,0 +1,127 @@
+.sidebar {
+  border-right: 1px solid var(--gray200);
+  border-bottom: 1px solid var(--gray200);
+  background-color: #fff;
+  position: fixed;
+  height: 100%;
+  min-height: 90vh;
+  top: 70px;
+  left: 0;
+
+  &__title {
+    display: flex;
+    width: 100%;
+    height: 64px;
+    align-items: center;
+    border-bottom: 1px solid var(--gray200);
+    padding: 0 23.5px;
+    text-decoration: none; 
+
+
+    a {
+        width: 100%;
+        text-decoration: none;
+        font-size: var(--text-base);
+        font-weight: var(--font-medium);
+        line-height: 150%;
+        font-style: normal;
+        color: var(--gray900);
+        transition: background 0.3s linear;
+        -webkit-tap-highlight-color: transparent;
+        outline: none;
+        border: none;
+
+        &:hover {
+          cursor: pointer;
+          color: var(--blue600);
+          transform: scale(1.05);
+          text-decoration: none;
+        }
+
+        &:focus{
+            text-decoration: none;
+        }
+    }
+  }
+
+  .sidebar_icon {
+    color: #000;
+    font-size: 1.3rem;
+    padding-right: 16px;
+
+    &:hover {
+        cursor: pointer;
+        color: var(--blue600);
+        transform: scale(1.05);
+    }
+  }
+
+
+
+  &__list {
+    padding: 0 23.5px;
+    list-style: none;
+
+    &__item {
+      display: flex;
+      padding-top: 24px;
+
+      i {
+        width: 24px;
+        color: #000;
+        font-size: 1.2rem;
+        margin-right: 16px;
+      }
+
+      a {
+        width: 100%;
+        text-decoration: none;
+        font-size: var(--text-base);
+        font-weight: var(--font-medium);
+        line-height: 150%;
+        font-style: normal;
+        color: var(--gray900);
+        transition: background 0.3s linear;
+        -webkit-tap-highlight-color: transparent;
+        outline: none;
+        border: none;
+
+        &:hover {
+          cursor: pointer;
+          color: var(--blue600);
+          transform: scale(1.05);
+          text-decoration: none;
+        }
+
+        &:focus{
+            text-decoration: none;
+        }
+      }
+    }
+  }
+
+  .sidebar_btn {
+    position: absolute;
+    bottom: 70px;
+    // right: 0;
+    // left: 0;
+    justify-content: center;
+    align-items: center;
+    padding: 7px 11px;
+    width: 100%;
+    height: 32px;
+    background-color: var(--blue600);
+    color: var(--blue100);
+    border: none;
+    outline: none;
+
+    &:hover {
+      cursor: pointer;
+      background-color: var(--blue800);
+    }
+  }
+}
+
+.active {
+  color: var(--blue600) !important;
+}
