@@ -1,4 +1,36 @@
-.chat{
-    background-color: red;
-    margin: 10px 0;
+.chart {
+  background-color: #fff;
+  margin: 0 0 16px;
+  width: 100%;
+  border-radius: 16px;
+
+  .chart_header {
+    display: flex;
+    align-items: center;
+
+    h1 {
+      font-style: normal;
+      font-weight: var(--font-bold);
+      font-size: var(--text-xl);
+      line-height: 150%;
+      color: var(--gray900);
+      margin: 20px 10px 20px 20px;
+    }
+
+    .chart_icon {
+      color: var(--gray400);
+      transition: background 0.3 all;
+
+      &:hover {
+        cursor: pointer;
+        color: var(--blue500);
+        transform: scaleY(1.1);
+      }
+    }
+  }
+
+  canvas {
+    max-height: 500px;
+    padding: 16px;
+  }
 }
