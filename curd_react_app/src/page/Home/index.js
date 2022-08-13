@@ -1,11 +1,12 @@
 import { Grid, Row, Col } from "rsuite";
-import Chat from "../../component/Chat";
+import Chat from "../../component/Dashboard/Chat";
 
 import classNames from "classnames/bind";
 import styles from "./Home.module.scss";
-import Newuser from "../../component/Newuser";
-import Sellingproduct from "../../component/Sellingproduct";
+import Newuser from "../../component/Dashboard/Newuser";
+import Sellingproduct from "../../component/Dashboard/Sellingproduct";
 import Footer from "../../component/Layout/DefaultLayout/Footer";
+import Nearestorder from "../../component/Dashboard/Nearestorder";
 
 const cx = classNames.bind(styles);
 
@@ -32,6 +33,12 @@ function Home() {
               <Sellingproduct />
             </Col>
           </div>
+        </Row>
+
+        <Row className="show-grid">
+          <Col xs={24}>
+            <Nearestorder />
+          </Col>
         </Row>
 
         <Row className="show-grid">

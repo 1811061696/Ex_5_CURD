@@ -92,11 +92,6 @@ const  PRODUCT_SELLING = [
         productId: "Mã SP: 00009",
         sales: 80,
     },
-    {
-        productName: "SSD",
-        productId: "Mã SP: 00010",
-        sales: 90,
-    },
 ]
 
 const DATA_TABLE = [

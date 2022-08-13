@@ -1,4 +1,4 @@
-import { NEW_USER } from "../Data";
+import { NEW_USER } from "../../Data";
 
 import classNames from "classnames/bind";
 import styles from "./Newuser.module.scss";
