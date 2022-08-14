@@ -1,0 +1,94 @@
+{
+  "product": [
+    {
+      "id": 1,
+      "name": "Lót chuột",
+      "type": "Lót chuột",
+      "create_date": "jun 11, 2022",
+      "amount": "80 cái",
+      "price": "2.300.000",
+      "status": "Còn hàng"
+    },
+    {
+      "id": 2,
+      "name": "Giá đỡ laptop",
+      "type": "Phụ kiện laptop",
+      "create_date": "jun 11, 2022",
+      "amount": "40 cái",
+      "price": "2.300.000",
+      "status": "Hết hàng"
+    },
+    {
+      "name": "Tai nghe không dây",
+      "amount": "0",
+      "type": "Tai nghe",
+      "status": "Hết hàng",
+      "time": "2022-08-04",
+      "price": "150.000 ₫",
+      "id": 3
+    },
+    {
+      "name": "Bàn phím cơ",
+      "amount": "1000",
+      "type": "Bàn phím",
+      "status": "Còn hàng",
+      "create_date": "2022-08-04",
+      "price": "5.000.000 ₫",
+      "id": 4
+    },
+    {
+      "name": "Bàn làm việc",
+      "amount": "100",
+      "type": "Bàn",
+      "status": "Còn hàng",
+      "create_date": "2022-08-04",
+      "price": "4.800.000 ₫",
+      "id": 5
+    },
+    {
+      "name": "Lót chuột",
+      "amount": "0",
+      "type": "Lót chuột",
+      "status": "Hết hàng",
+      "create_date": "2022-08-11",
+      "price": "200 ₫",
+      "id": 6
+    },
+    {
+      "name": "Nguyễn Quang Thành",
+      "amount": "10",
+      "type": "Bàn",
+      "status": "Còn hàng",
+      "create_date": "2022-08-04",
+      "price": "200 ₫",
+      "id": 7
+    },
+    {
+      "name": "Nguyễn Quang Thành",
+      "amount": "10",
+      "type": "Chuột",
+      "status": "Còn hàng",
+      "create_date": "2022-08-03",
+      "price": "NaN ₫",
+      "id": 8
+    },
+    {
+      "name": "nguyen quang thanh",
+      "amount": "20",
+      "type": "Chuột",
+      "status": "Hết hàng",
+      "create_date": "2022-08-11",
+      "price": "150.000 ₫",
+      "id": 9
+    },
+    {
+      "name": "Ghế công thái học",
+      "amount": "100",
+      "type": "Ghế",
+      "status": "Còn hàng",
+      "create_date": "2022-08-01",
+      "price": "7.000.000 ₫",
+      "id": 10
+    }
+  ]
+}

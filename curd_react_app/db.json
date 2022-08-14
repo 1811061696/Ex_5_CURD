@@ -1,0 +1,83 @@
+{
+    "product": [
+      {
+        "name": "Ghế công cơ học",
+        "amount": "1000",
+        "type": "Ghế",
+        "status": "Còn hàng",
+        "create_date": "2022-08-05",
+        "price": "5.000.000 ₫",
+        "id": 5
+      },
+      {
+        "name": "Ghế mát xa lưng",
+        "amount": "100",
+        "type": "Chuột",
+        "status": "Còn hàng",
+        "create_date": "2022-08-08",
+        "price": "6000000",
+        "id": 9
+      },
+      {
+        "name": "Giá đỡ laptop",
+        "amount": "50",
+        "type": "Đồ gameing",
+        "status": "Còn hàng",
+        "create_date": "2022-08-09",
+        "price": "450000",
+        "id": 10
+      },
+      {
+        "name": "Bàn phím cơ",
+        "amount": "80",
+        "type": "Bàn",
+        "status": "Còn hàng",
+        "create_date": "2022-08-12",
+        "price": "15.000 ₫",
+        "id": 12
+      },
+      {
+        "name": "Iphone 18888",
+        "amount": "0",
+        "type": "Đồ gameing",
+        "status": "Hết hàng",
+        "create_date": "2022-08-02",
+        "price": "200.000 ₫",
+        "id": 14
+      }
+    ],
+    "user": [
+      {
+        "id":"1",
+        "name": "Nguyễn Quang Thành",
+        "phone": "0325259823",
+        "date": "2000-12-04",
+        "address": "Bắc Từ Liêm",
+        "email": "nguyenquangthanh0412@gmail.com"
+      },
+      {
+        "id":"2",
+        "name": "Nguyễn Quang Thành",
+        "phone": "0325259823",
+        "date": "2000-12-04",
+        "address": "Bắc Từ Liêm",
+        "email": "nguyenquangthanh0412@gmail.com"
+      },
+      {
+        "id":"3",
+        "name": "Nguyễn Quang Thành",
+        "phone": "0325259823",
+        "date": "2000-12-04",
+        "address": "Bắc Từ Liêm",
+        "email": "nguyenquangthanh0412@gmail.com"
+      },
+      {
+        "id":"4",
+        "name": "Nguyễn Quang Thành",
+        "phone": "0325259823",
+        "date": "2000-12-04",
+        "address": "Bắc Từ Liêm",
+        "email": "nguyenquangthanh0412@gmail.com"
+      }
+    ]
+  }

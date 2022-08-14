@@ -19,6 +19,10 @@ function Tableuser() {
     return () => (change = false);
   }, []);
 
+  function getDataUser(data) {
+    if (data) return setArrayUser([...arrayUser, data]);
+}
+
   return (
     <div className={cx("wrapper")}>
       <h1 className={cx("wrapper_title")}>Danh sách khách hàng</h1>
@@ -33,7 +37,7 @@ function Tableuser() {
         </div>
         <div className={cx("search_group_option")}>
           <div>
-            <AddUser />
+            <AddUser onGetdata={getDataUser}/>
           </div>
           <Button appearance="default" className={cx("button_default")}>Bộ lọc</Button>
         </div>
