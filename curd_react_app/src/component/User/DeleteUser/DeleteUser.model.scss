@@ -1,0 +1,30 @@
+.delete_user {
+  i {
+    font-size: 1rem;
+    color: var(--red700);
+    padding: 4px;
+
+    &:hover {
+      transform: scale(1.2);
+      cursor: pointer;
+    }
+  }
+}
+
+.delete_group {
+  background-color: var(--background-color);
+}
+
+.delete_form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px;
+  background-color: var(--background-color);
+
+  .delete_footer {
+    .button_delete {
+      margin-right: 4px;
+    }
+  }
+}

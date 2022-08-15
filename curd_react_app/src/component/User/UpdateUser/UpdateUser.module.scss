@@ -1,6 +1,19 @@
+.update_container {
+  i {
+    font-size: 1rem;
+    color: var(--blue700);
+    padding: 4px;
+  }
+
+  &:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+  }
+}
+
 .modal_body {
   margin: 0 !important;
-  
+
   div {
     background-color: var(--background-color);
   }
@@ -43,7 +56,10 @@
             left: 18px;
             top: 0;
             transform: translateY(-50%);
-            background-image: linear-gradient(var(--background-color), rgba(248, 248, 250, 0.89));
+            background-image: linear-gradient(
+              var(--background-color),
+              rgba(248, 248, 250, 0.89)
+            );
             transition: 0.1s ease-out;
             transform-origin: left top;
             pointer-events: none;

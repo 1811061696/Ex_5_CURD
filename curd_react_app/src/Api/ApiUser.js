@@ -5,6 +5,12 @@ export function getUser() {
 }
 
 
+export function getOneUser(id) {
+  return fetch(ApiUser + '/' + id).then((data) => data.json());
+}
+
+
+
 export function createUser(data, callback) {
   const options = {
     method: "POST",
@@ -18,3 +24,31 @@ export function createUser(data, callback) {
     .then((response) => response.json())
     .then(callback);
 }
+
+
+export function handleDeleteUser(id) {
+  let options = {
+      method: 'DELETE',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+  };
+  fetch(ApiUser + '/' + id, options).then(function (response) {
+      return response.json();
+  });
+}
+
+
+export function handleUpdateUser(data, id) {
+  var option = {
+      method: 'PUT',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+  };
+  fetch(ApiUser + '/' + id, option).then(function (response) {
+      return response;
+  });
+}
+

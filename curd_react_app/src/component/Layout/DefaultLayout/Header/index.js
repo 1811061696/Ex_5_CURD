@@ -13,7 +13,7 @@ function Header() {
       <Grid fluid>
         <Row className="show-grid">
           <Col xs={12}>
-            <h1 className={cx("header__title")}>CURD</h1>
+            <h1 className={cx("header__title")}>CRUD</h1>
           </Col>
           <Col xs={12}>
             <div className={cx("header__information")}>

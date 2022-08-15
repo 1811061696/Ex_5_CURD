@@ -1,29 +1,29 @@
-import { Modal, Placeholder, Button, ButtonToolbar } from "rsuite";
+import { useEffect, useState } from "react";
+import { Field, Form } from "react-final-form";
+import { Button, Icon, Modal, Placeholder } from "rsuite";
 
 import classNames from "classnames/bind";
-import styles from "./Adduser.module.scss";
-import { useEffect, useState } from "react";
-import { Form, Field } from "react-final-form";
 import { getCity, getDistrist } from "../../../Api/Apiaddress";
-import { createUser } from "../../../Api/ApiUser";
-
+import { getOneUser, handleUpdateUser } from "../../../Api/ApiUser";
+import { getIdCity } from "../AddUser";
+import styles from "./UpdateUser.module.scss";
 const cx = classNames.bind(styles);
 
-// lấy ra tên hoặc id của tỉnh/ thành phố
- export const getIdCity = (arrConscious, conscious) => {
-  if (conscious)
-    return arrConscious.find(
-      (item) => item.name === conscious || item.code === conscious
-    );
-  else return { code: 1 };
-};
-
-function AddUser(props) {
-  let codeCity;
+function UpdateUser(props) {
+  const id = props.id;
+  const [user, setUser] = useState([]);
   const [arrCity, setArrayCity] = useState([]); // data thành phố
   const [arrDistrist, setArrayDistrist] = useState([]); // data quận huyện
   const [valueCity, setValueCity] = useState(); // value thành phố
   const [valueDistrist, setValueDistrist] = useState(); // value quận/huyện
+  let codeCity = user.codeCity;
+
+  // get user
+  useEffect(() => {
+    getOneUser(id).then((item) => {
+      setUser(item);
+    });
+  }, []);
 
   // khi có value của thành phố
   if (valueCity) {
@@ -53,30 +53,10 @@ function AddUser(props) {
     fetchApi();
   }, [codeCity]);
 
-  // gọi Api và gửi đi data muốn push
+  // handle updates
   const onSubmit = async (values) => {
-    let arrCityUser = getIdCity(arrCity, values.valueCity);
-
-    let idDitrisct = getIdCity(arrDistrist, values.address);
-
-    // khi không có values.valueCity  thì mặc định sẽ lấy thái bình
-    if (!values.valueCity) {
-      values.valueCity = "Thái Bình";
-    }
-    let newCity = values.valueCity.replace(/[0-9]/g, "");
-
-    // data gửi đi
-    let newValue = {
-      ...values,
-      valueCity: newCity,
-      codeCity: arrCityUser.code,
-      codeDistrict: idDitrisct.code,
-    };
-    console.log(newValue);
-
-    // gọi Api post user và truyền đi data
-    await createUser(newValue);
-    props.onGetdata(newValue); // render lại table
+    await handleUpdateUser(values, props.id);
+    props.updateUser(values, id);
   };
 
   // bật tắt module
@@ -86,23 +66,30 @@ function AddUser(props) {
   };
   const handleClose = () => setOpen(false);
 
-
   return (
-    <div className="modal-container">
-      <ButtonToolbar>
-        <Button appearance="primary" onClick={() => handleOpen()}>
-          Thêm mới
-        </Button>
-      </ButtonToolbar>
+    <div className={cx("update_container")}>
+      <Icon
+        icon="pencil"
+        onClick={() => handleOpen()}
+        className={cx("update_icon")}
+      />
       <Modal full show={open} sonHide={handleClose}>
         <Modal.Header onClick={() => handleClose()}>
-          <Modal.Title>Thêm mới khách hàng</Modal.Title>
+          <Modal.Title>Cập nhập khách hàng</Modal.Title>
         </Modal.Header>
 
         <Modal.Body className={cx("modal_body")}>
           <Placeholder.Graph rows={8}>
             <Form
               onSubmit={onSubmit}
+              initialValues={{
+                name: user.name,
+                phone: user.phone,
+                date: user.date,
+                address: user.address,
+                city: user.city,
+                email: user.email,
+              }}
               render={({ handleSubmit, submitting, pristine }) => (
                 <form onSubmit={handleSubmit}>
                   <div className={cx("modal_input")}>
@@ -115,7 +102,9 @@ function AddUser(props) {
                             component="input"
                             type="text"
                           />
-                          <span className={cx("input_lable_select")}>Họ và tên</span>
+                          <span className={cx("input_lable_select")}>
+                            Họ và tên
+                          </span>
                         </div>
                       </div>
                       <div className={cx("input_wrapper")}>
@@ -209,7 +198,9 @@ function AddUser(props) {
                             type="text"
                             placeholder="email@gmail.com"
                           />
-                          <span className={cx("input_lable_select")}>Email</span>
+                          <span className={cx("input_lable_select")}>
+                            Email
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -238,4 +229,4 @@ function AddUser(props) {
   );
 }
 
-export default AddUser;
+export default UpdateUser;

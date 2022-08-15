@@ -4,11 +4,17 @@ import { Input, InputGroup, Icon, Button } from "rsuite";
 import { useEffect, useState } from "react";
 import { getUser } from "../../../Api/ApiUser";
 import AddUser from "../AddUser";
+import DeleteUser from "../DeleteUser";
+import UpdateUser from "../UpdateUser";
+import FillterUser from "../FillterUser";
 
 const cx = classNames.bind(styles);
 
+
 function Tableuser() {
   const [arrayUser, setArrayUser] = useState([]);
+  const [showFilter, setShowFillter] = useState(false);
+
   useEffect(() => {
     let change = true;
     getUser().then((items) => {
@@ -19,9 +25,42 @@ function Tableuser() {
     return () => (change = false);
   }, []);
 
+  function deleteUser(id) {
+    console.log(id);
+    const newUser = arrayUser.filter((item) => {
+      return item.id !== id;
+    });
+    setArrayUser(newUser);
+  }
+
+  function updateUser(value, id) {
+    const newArrUser = arrayUser.map((item) => {
+      if (item.id === id) {
+        return (item = value);
+      }
+      return item;
+    });
+    setArrayUser(newArrUser);
+  }
+
   function getDataUser(data) {
     if (data) return setArrayUser([...arrayUser, data]);
-}
+  }
+
+  function getDataFillterUser(data) {
+    console.log(data)
+    if (data) return setArrayUser(data);
+    // console.log(arrayUser)
+  }
+  function handleShowFilter(e) {
+    if (e.target.innerText === "Bộ lọc") {
+      e.target.innerText = "Ẩn bộ lọc";
+      setShowFillter(true)
+    } else if (e.target.innerText === "Ẩn bộ lọc") {
+      e.target.innerText = "Bộ lọc";
+      setShowFillter(false)
+    }
+  }
 
   return (
     <div className={cx("wrapper")}>
@@ -37,11 +76,21 @@ function Tableuser() {
         </div>
         <div className={cx("search_group_option")}>
           <div>
-            <AddUser onGetdata={getDataUser}/>
+            <AddUser onGetdata={getDataUser} />
           </div>
-          <Button appearance="default" className={cx("button_default")}>Bộ lọc</Button>
+          <Button
+            appearance="default"
+            className={cx("button_default")}
+            onClick={handleShowFilter}
+            style={{color: "#1C64F2"}}
+          >
+            Bộ lọc
+          </Button>
         </div>
       </div>
+      {
+        (showFilter === true? <FillterUser data={arrayUser}  onGetdata={getDataFillterUser} /> : "" )
+      }
       <div className={cx("table_product_table")}>
         <table className={cx("table")}>
           <thead>
@@ -55,7 +104,7 @@ function Tableuser() {
             </tr>
           </thead>
           <tbody className={cx("list__table")}>
-            {arrayUser.reverse().map((item, index) => {
+            {[...arrayUser].reverse().map((item, index) => {
               if (index % 2 === 0) {
                 return (
                   <tr key={index}>
@@ -66,8 +115,8 @@ function Tableuser() {
                     <td className={cx("text_color")}>{item.email}</td>
                     <td className={cx("text_color")}>
                       <div className={cx("table_option")}>
-                        <Icon icon="pencil" className={cx("update")} />
-                        <Icon icon="trash" className={cx("delete")} />
+                        <UpdateUser updateUser={updateUser} id={item.id} />
+                        <DeleteUser deleteUser={deleteUser} id={item.id} />
                       </div>
                     </td>
                   </tr>
@@ -82,8 +131,8 @@ function Tableuser() {
                     <td className={cx("text_color")}>{item.email}</td>
                     <td className={cx("text_color")}>
                       <div className={cx("table_option")}>
-                        <Icon icon="pencil" className={cx("update")} />
-                        <Icon icon="trash" className={cx("delete")} />
+                        <UpdateUser updateUser={updateUser} id={item.id} />
+                        <DeleteUser deleteUser={deleteUser} id={item.id} />
                       </div>
                     </td>
                   </tr>
