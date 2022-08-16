@@ -1,101 +1,81 @@
 .modal_body {
   margin: 0 !important;
-  
+
   div {
     background-color: var(--background-color);
   }
 }
 
 .modal_input {
-  .model_input_doble {
+  padding: 16px;
+  width: 100%;
+
+  div {
+    width: calc(100%);
     display: flex;
     justify-content: space-between;
-    padding: 16px;
+    // padding-bottom: 50px;
 
-    .input_wrapper {
-      width: calc(100% / 2 - 10px);
-      align-items: flex-start;
-      background: var(--background-color);
-      box-shadow: var(--box-shadow-input);
-      border-radius: 10px;
-      border: 1px solid rgb(219, 217, 217);
+    div {
+      margin-bottom: 15px;
+      position: relative;
+      margin: 0 15px;
 
       div {
-        position: relative;
-        border-radius: 10px;
+        margin: 0;
+        width: 100%;
 
-        .input_content {
-          border-radius: 10px;
+        div {
+          margin: 0;
           width: 100%;
-          padding: 8px;
-          border: 1px solid transparent;
-          outline: none;
-          position: relative;
 
-          &:focus {
-            border: 1px solid var(--green400);
-          }
+          div {
+            input {
+              width: 100% !important;
+            }
 
-          &:focus + .input_lable,
-          &:focus + .input_lable_select {
-            color: var(--green400);
-            position: absolute;
-            left: 18px;
-            top: 0;
-            transform: translateY(-50%);
-            background-image: linear-gradient(var(--background-color), rgba(248, 248, 250, 0.89));
-            transition: 0.1s ease-out;
-            transform-origin: left top;
-            pointer-events: none;
-            font-style: normal;
-            font-weight: var(--font-normal);
-            font-size: var(--text-xs);
-            line-height: 12px;
-            letter-spacing: 0.15px;
-          }
-        }
+            div {
+              width: 100% !important;
+            }
 
-        input:-internal-autofill-selected {
-          background-color: var(--background-color) !important;
-          background-image: unset !important;
-        }
+            .input_date {
+              a {
+                height: 36px;
+                padding: 8px 0 8px;
 
-        input[type="date"]::-webkit-calendar-picker-indicator {
-          opacity: 1;
-          color: rgba(0, 0, 0, 0);
-          background: url("../../../img/Vector.svg") no-repeat;
-          position: absolute;
-          top: 8px;
-          right: 12px;
-          width: 20px;
-          height: 19px;
+                span{
 
-          &:hover {
-            cursor: pointer;
+                  margin-right: 12px;
+                }
+
+                span::before {
+                  opacity: 1;
+                  color: rgba(0, 0, 0, 0);
+                  background: url("../../../img/Vector.svg") no-repeat;
+                  position: absolute;
+                  right: -30px;
+                  width: 50px;
+                  height: 20px;
+                  top: -1px;
+
+                  &:hover {
+                    cursor: pointer;
+                  }
+                }
+              }
+            }
+
+            span + span {
+              padding-right: 8px;
+            }
           }
         }
-
-        .input_lable {
-          position: absolute;
-          left: 18px;
-          top: 11px;
-          background-color: white;
-          color: var(--gray500);
-          transition: 0.1s ease-out;
-          transform-origin: left top;
-          pointer-events: none;
-          font-style: normal;
-          font-weight: var(--font-normal);
-          font-size: var(--text-sm);
-          line-height: 12px;
-          letter-spacing: 0.15px;
-        }
-
-        .input_lable_select {
+        label {
+          z-index: 9;
           color: var(--gray500);
           position: absolute;
-          left: 18px;
-          top: 0;
+          left: 15px;
+          top: -7px;
           transform: translateY(-50%);
           background-color: white;
           transition: 0.1s ease-out;
@@ -106,34 +86,13 @@
           font-size: var(--text-xs);
           line-height: 12px;
           letter-spacing: 0.15px;
+          margin: 0;
         }
       }
     }
   }
-}
-
-.invalid {
-  border: 1px solid var(--red600) !important;
-}
-
-.form-message {
-  position: absolute;
-  left: 12px;
-  bottom: -13px;
-  background-color: white;
-  color: var(--red600);
-  transition: 0.1s ease-out;
-  transform-origin: left top;
-  pointer-events: none;
-  font-style: normal;
-  font-weight: var(--font-normal);
-  font-size: var(--text-xs);
-  line-height: 30px;
-  letter-spacing: 0.15px;
-}
-
-input:focus + label,
-input.is-valid + label {
-  transform: translateY(-180%);
-  font-size: var(-text-xs) !important;
+  .form_footer {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
