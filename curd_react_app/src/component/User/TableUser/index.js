@@ -52,6 +52,7 @@ function Tableuser() {
     if (data) return setArrayUser(data);
     // console.log(arrayUser)
   }
+
   function handleShowFilter(e) {
     if (e.target.innerText === "Bộ lọc") {
       e.target.innerText = "Ẩn bộ lọc";

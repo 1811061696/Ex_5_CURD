@@ -16,11 +16,11 @@ function InputPickerCustomField(props) {
       className={`${inputClassname}`}
       data={inputValue}
       accepter={InputPicker}
-      // onChange={(value) => {
-      //   if (value === "new") return;
-      //   input.onChange(value);
-      //   onChange(value);
-      // }}
+      onChange={(value) => {
+        input.onChange(value);
+        onChange(value);
+      }}
+
       virtualized={true}
       preventOverflow={true}
       renderMenuItem={(label, item) => {

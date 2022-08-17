@@ -33,37 +33,50 @@ export const getIdCity = (arrConscious, conscious) => {
   else return { code: 1 };
 };
 
-const Error = ({ name }) => (
-  <Field name={name} subscription={{ error: true, touched: true }}>
-    {({ meta: { touched, error } }) =>
-      touched && error ? (
-        <HelpBlock className={cx("form-group-error-message")}>
-          {error}
-        </HelpBlock>
-      ) : null
-    }
-  </Field>
-);
-
+// valid
 const required = (value) => (value ? undefined : "Required");
+
+const handleCheckEmail = (value) => {
+  if (value) {
+    return /\S+@\S+\.\S+/.test(value) ? undefined : "Vui lòng nhập đúng Email";
+  } else {
+    return "Required";
+  }
+};
+
+const handleCheckNumber = (value) => {
+  if (value) {
+    if (!value.match("[0-9]{14}")) {
+      if (!(value.length > 9 && value.length < 12)) {
+        return "Vui lòng kiểm tra lại số điện thoại";
+      } else {
+        return undefined;
+      }
+    } else {
+      return undefined;
+    }
+  } else {
+    return "Required";
+  }
+};
 
 function AddUser(props) {
   const formRef = useRef();
-
-
-
 
   let codeCity;
   const [arrCity, setArrayCity] = useState([]); // data thành phố
   const [arrDistrist, setArrayDistrist] = useState([]); // data quận huyện
   const [valueCity, setValueCity] = useState(); // value thành phố
-  const [valueDistrist, setValueDistrist] = useState(); // value quận/huyện
+
+  // sử lý kiểm tra value của thành phố
+  const handleCheckValue = (value) => {
+    setValueCity(value);
+  };
 
   // khi có value của thành phố
   if (valueCity) {
     var res = getIdCity(arrCity, valueCity); // object của thành phố
     codeCity = parseInt(res.code); // id của thành phố
-    console.log(codeCity)
   } else {
     codeCity = 1;
   }
@@ -80,8 +93,6 @@ function AddUser(props) {
         if (codeCity) {
           const resDisService = await getDistrist(codeCity);
           setArrayDistrist(resDisService.districts);
-          console.log(codeCity)
-          console.log(arrDistrist)
         }
       } catch (error) {
         console.log(error);
@@ -92,29 +103,10 @@ function AddUser(props) {
 
   // gọi Api và gửi đi data muốn push
   const onSubmit = async (values) => {
-    console.log(values)
-    let arrCityUser = getIdCity(arrCity, values.valueCity);
-
-    let idDitrisct = getIdCity(arrDistrist, values.address);
-
-    // khi không có values.valueCity  thì mặc định sẽ lấy thái bình
-    if (!values.valueCity) {
-      values.valueCity = "Thái Bình";
-    }
-    let newCity = values.valueCity.replace(/[0-9]/g, "");
-
-    // data gửi đi
-    let newValue = {
-      ...values,
-      valueCity: newCity,
-      codeCity: arrCityUser.code,
-      codeDistrict: idDitrisct.code,
-    };
-    console.log(newValue);
-
+    console.log(values);
     // gọi Api post user và truyền đi data
     await createUser(values);
-    // props.onGetdata(values); // render lại table
+    props.onGetdata(values); // render lại table
   };
 
   // bật tắt module
@@ -141,6 +133,7 @@ function AddUser(props) {
             initialValues={{}}
             render={({ handleSubmit, values, submitting, pristine }) => (
               <>
+                <pre>{JSON.stringify(values, 0, 2)}</pre>
                 <RSForm
                   layout="inline"
                   className={cx("modal_input")}
@@ -161,7 +154,6 @@ function AddUser(props) {
                         <ControlLabel className={cx("input_lable_select")}>
                           Họ và tên
                         </ControlLabel>
-                        <Error name="model" />
                       </div>
                     </FormGroup>
 
@@ -170,14 +162,13 @@ function AddUser(props) {
                         <Field
                           className={cx("input_content")}
                           name="phone"
-                          component={NumberCustomField}
+                          component={InputCustomField}
                           placeholder=" "
-                          validate={required}
+                          validate={handleCheckNumber}
                         />
                         <ControlLabel className={cx("input_lable_select")}>
                           SĐT
                         </ControlLabel>
-                        <Error name="model" />
                       </div>
                     </FormGroup>
                   </div>
@@ -193,15 +184,14 @@ function AddUser(props) {
                           component={InputPickerCustomField}
                           placeholder="Chọn"
                           inputValue={arrDistrist}
-                          valueKey="code"
+                          valueKey="name"
                           labelKey="name"
                           validate={required}
-                          
+                          onChange={() => {}}
                         />
                         <ControlLabel className={cx("input_lable_select")}>
                           Quận/Huyện
                         </ControlLabel>
-                        <Error name="model" />
                       </div>
                     </FormGroup>
                     <FormGroup>
@@ -212,16 +202,17 @@ function AddUser(props) {
                           component={InputPickerCustomField}
                           placeholder="Chọn"
                           inputValue={arrCity}
-                          valueKey="code"
+                          valueKey="name"
                           labelKey="name"
                           validate={required}
-                          
+                          onChange={(value) => {
+                            handleCheckValue(value);
+                          }}
                         />
 
                         <ControlLabel className={cx("input_lable_select")}>
                           Thành phố
                         </ControlLabel>
-                        <Error name="model" />
                       </div>
                     </FormGroup>
                   </div>
@@ -236,11 +227,11 @@ function AddUser(props) {
                           component={DatePickerCustomField}
                           placeholder=" "
                           validate={required}
+                          onetap= {true}
                         />
                         <ControlLabel className={cx("input_lable_select")}>
                           Ngày sinh
                         </ControlLabel>
-                        <Error name="model" />
                       </div>
                     </FormGroup>
                     <FormGroup>
@@ -249,12 +240,11 @@ function AddUser(props) {
                           name="email"
                           component={InputCustomField}
                           placeholder=" "
-                          validate={required}
+                          validate={handleCheckEmail}
                         />
                         <ControlLabel className={cx("input_lable_select")}>
                           Email
                         </ControlLabel>
-                        <Error name="model" />
                       </div>
                     </FormGroup>
                   </div>
@@ -266,6 +256,7 @@ function AddUser(props) {
                       className="bg-blue text-white"
                       loading={submitting}
                       appearance="primary"
+                      onClick={handleClose}
                     >
                       Lưu lại
                     </Button>

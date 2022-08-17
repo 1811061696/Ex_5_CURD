@@ -24,7 +24,7 @@ function DatePickerCustomField(props) {
     <CustomField
       {...props}
       value={val}
-      oneTap={timeformat === "HH:mm" ? false : true}
+      oneTap={timeformat === "DD/MM/YYYY" ? false : true}
       locale={{
         today: "Hôm nay",
         yesterday: "Hôm qua",
