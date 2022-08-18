@@ -1,26 +1,21 @@
 import {
-  Modal,
   Button,
-  ButtonToolbar,
-  HelpBlock,
-  Form as RSForm,
-  FormGroup,
-  ControlLabel,
+  ButtonToolbar, ControlLabel, Form as RSForm,
+  FormGroup, Modal
 } from "rsuite";
 
 import {
   DatePickerCustomField,
   InputCustomField,
-  InputPickerCustomField,
-  NumberCustomField,
+  InputPickerCustomField
 } from "../../../FinalFormComponents";
 
 import classNames from "classnames/bind";
-import styles from "./Adduser.module.scss";
 import { useEffect, useRef, useState } from "react";
-import { Form as FieldForm, Field } from "react-final-form";
+import { Field, Form as FieldForm } from "react-final-form";
 import { getCity, getDistrist } from "../../../Api/Apiaddress";
 import { createUser } from "../../../Api/ApiUser";
+import styles from "./Adduser.module.scss";
 
 const cx = classNames.bind(styles);
 
@@ -59,6 +54,20 @@ const handleCheckNumber = (value) => {
     return "Required";
   }
 };
+
+ // custom date 
+ export const handleCustomDate = (value) => {
+  if(typeof (value.date) !== "object"){
+    return value.date
+  }else{
+    const Year = value.date.getFullYear();
+    const Month = value.date.getMonth() + 1;
+    const Date = value.date.getDate();
+    const date = Year + "-" + Month + "-" + Date;
+    
+    return date
+  }
+}
 
 function AddUser(props) {
   const formRef = useRef();
@@ -103,10 +112,15 @@ function AddUser(props) {
 
   // gọi Api và gửi đi data muốn push
   const onSubmit = async (values) => {
-    console.log(values);
+    const date = handleCustomDate(values)
+    const newValue = {
+      ...values,
+      date,
+    };
+
     // gọi Api post user và truyền đi data
-    await createUser(values);
-    props.onGetdata(values); // render lại table
+    await createUser(newValue);
+    props.onGetdata(newValue); // render lại table
   };
 
   // bật tắt module
@@ -133,7 +147,6 @@ function AddUser(props) {
             initialValues={{}}
             render={({ handleSubmit, values, submitting, pristine }) => (
               <>
-                <pre>{JSON.stringify(values, 0, 2)}</pre>
                 <RSForm
                   layout="inline"
                   className={cx("modal_input")}
@@ -227,7 +240,7 @@ function AddUser(props) {
                           component={DatePickerCustomField}
                           placeholder=" "
                           validate={required}
-                          onetap= {true}
+                          onetap={true}
                         />
                         <ControlLabel className={cx("input_lable_select")}>
                           Ngày sinh
@@ -256,8 +269,7 @@ function AddUser(props) {
                       className="bg-blue text-white"
                       loading={submitting}
                       appearance="primary"
-                      onClick={handleClose}
-                    >
+                      >
                       Lưu lại
                     </Button>
                     <Button
@@ -265,7 +277,7 @@ function AddUser(props) {
                       onClick={handleClose}
                       loading={submitting}
                     >
-                      Hủy
+                      Quay lại
                     </Button>
                   </ButtonToolbar>
                 </RSForm>

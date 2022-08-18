@@ -17,7 +17,7 @@
   &_option {
     display: flex;
     justify-content: space-between;
-    margin-top: 25px;
+    margin:30px 0;
 
     i {
       &:hover {
@@ -27,10 +27,10 @@
       }
     }
 
-    .search_group_option{
+    .search_group_option {
       display: flex;
 
-      .button_default{
+      .button_default {
         margin-left: 6px;
       }
     }
@@ -40,8 +40,6 @@
     .table {
       width: 100%;
       max-width: 100%;
-      margin: 20px 0;
-
       thead {
         display: table-header-group;
         vertical-align: middle;
@@ -66,139 +64,47 @@
           border-radius: 6px;
         }
       }
-
-      tbody {
-        display: table-row-group;
-        vertical-align: middle;
-
-        td {
-          padding: 14px 8px;
-          vertical-align: top;
-          border-bottom: 1px solid #ddd;
-          text-transform: unset;
-          font-style: normal;
-          font-weight: var(--font-normal);
-          font-size: var(--text-sm);
-          line-height: 20px;
-          color: var(--gray500);
-
-          .table_option {
-            display: flex;
-          }
-        }
-        .text_color {
-          color: var(--gray900);
-          font-weight: var(--font-semibold);
-        }
-      }
     }
   }
 
-  .pagination {
+  label-success {
     display: flex;
-    padding: 0 0 18px 0;
-    justify-content: flex-end;
+    flex-direction: row;
+    justify-content: center;
     align-items: center;
-
-    .pagination_title {
-      span {
-        font-style: normal;
-        font-weight: var(--font-normal);
-        font-size: var(--text-xs);
-        line-height: 166%;
-        color: var(--gray500);
-      }
-
-      .paging_option {
-        font-style: normal;
-        font-weight: var(--font-normal);
-        font-size: var(--text-xs);
-        line-height: 19px;
-        outline: none;
-        border: none;
-        transition: background 0.3s linear;
-        margin-left: 8px;
-
-        &:hover {
-          cursor: pointer;
-          transform: scale(1.2);
-        }
-      }
-    }
-
-    .pagination_status {
-      font-style: normal;
-      font-weight: var(--font-normal);
-      font-size: var(--text-xs);
-      line-height: 166%;
-      color: var(--gray500);
-      margin: 0 20px;
-    }
-
-    div {
-      line-height: 166%;
-      .arrow-left-line {
-        padding: 0 8px;
-        font-size: 1rem;
-
-        &:hover {
-          transform: scale(1.2);
-          cursor: pointer;
-          color: var(--blue800);
-        }
-      }
-
-      .arrow-right-line {
-        padding: 0 8px;
-        font-size: 1rem;
-
-        &:hover {
-          transform: scale(1.2);
-          cursor: pointer;
-          color: var(--blue800);
-        }
-      }
-    }
+    width: 86px;
+    height: 22px;
+    background: var(--green100);
+    color: var(--green800) !important;
+    border-radius: 10px;
   }
-}
 
-label-success {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 86px;
-  height: 22px;
-  background: var(--green100);
-  color: var(--green800) !important;
-  border-radius: 10px;
-}
+  .label-primary {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 86px;
+    height: 22px;
+    background: var(--blue100);
+    color: var(--blue800) !important;
+    border-radius: 10px;
+  }
 
-.label-primary {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 86px;
-  height: 22px;
-  background: var(--blue100);
-  color: var(--blue800) !important;
-  border-radius: 10px;
-}
+  .label-danger {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 86px;
+    height: 22px;
+    background: var(--red100);
+    color: var(--red800) !important;
+    border-radius: 10px;
+  }
 
-.label-danger {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 86px;
-  height: 22px;
-  background: var(--red100);
-  color: var(--red800) !important;
-  border-radius: 10px;
-}
-
-.background__table {
-  background-color: var(--gray50) !important;
-  border-radius: 12px 0px 0px 12px;
+  .background__table {
+    background-color: var(--gray50) !important;
+    border-radius: 12px 0px 0px 12px;
+  }
 }

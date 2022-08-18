@@ -1,17 +1,15 @@
 import classNames from "classnames/bind";
-import styles from "./TableUser.module.scss";
-import { Input, InputGroup, Icon, Button } from "rsuite";
 import { useEffect, useState } from "react";
+import { Button, Icon, Input, InputGroup } from "rsuite";
 import { getUser } from "../../../Api/ApiUser";
 import AddUser from "../AddUser";
-import DeleteUser from "../DeleteUser";
-import UpdateUser from "../UpdateUser";
 import FillterUser from "../FillterUser";
+import Paghination from "../Pagination";
+import styles from "./TableUser.module.scss";
 
 const cx = classNames.bind(styles);
 
-
-function Tableuser() {
+function Tableuser(props) {
   const [arrayUser, setArrayUser] = useState([]);
   const [showFilter, setShowFillter] = useState(false);
 
@@ -19,36 +17,18 @@ function Tableuser() {
     let change = true;
     getUser().then((items) => {
       if (change) {
-        setArrayUser(items);
+        setArrayUser(items.reverse());
       }
     });
     return () => (change = false);
   }, []);
-
-  function deleteUser(id) {
-    console.log(id);
-    const newUser = arrayUser.filter((item) => {
-      return item.id !== id;
-    });
-    setArrayUser(newUser);
-  }
-
-  function updateUser(value, id) {
-    const newArrUser = arrayUser.map((item) => {
-      if (item.id === id) {
-        return (item = value);
-      }
-      return item;
-    });
-    setArrayUser(newArrUser);
-  }
 
   function getDataUser(data) {
     if (data) return setArrayUser([...arrayUser, data]);
   }
 
   function getDataFillterUser(data) {
-    console.log(data)
+    console.log(data);
     if (data) return setArrayUser(data);
     // console.log(arrayUser)
   }
@@ -56,10 +36,10 @@ function Tableuser() {
   function handleShowFilter(e) {
     if (e.target.innerText === "Bộ lọc") {
       e.target.innerText = "Ẩn bộ lọc";
-      setShowFillter(true)
+      setShowFillter(true);
     } else if (e.target.innerText === "Ẩn bộ lọc") {
       e.target.innerText = "Bộ lọc";
-      setShowFillter(false)
+      setShowFillter(false);
     }
   }
 
@@ -83,15 +63,17 @@ function Tableuser() {
             appearance="default"
             className={cx("button_default")}
             onClick={handleShowFilter}
-            style={{color: "#1C64F2"}}
+            style={{ color: "#1C64F2" }}
           >
             Bộ lọc
           </Button>
         </div>
       </div>
-      {
-        (showFilter === true? <FillterUser data={arrayUser}  onGetdata={getDataFillterUser} /> : "" )
-      }
+      {showFilter === true ? (
+        <FillterUser data={arrayUser} onGetdata={getDataFillterUser} />
+      ) : (
+        ""
+      )}
       <div className={cx("table_product_table")}>
         <table className={cx("table")}>
           <thead>
@@ -104,61 +86,11 @@ function Tableuser() {
               <td>Chức năng</td>
             </tr>
           </thead>
-          <tbody className={cx("list__table")}>
-            {[...arrayUser].reverse().map((item, index) => {
-              if (index % 2 === 0) {
-                return (
-                  <tr key={index}>
-                    <td className={cx("text_color")}>{item.name}</td>
-                    <td className={cx("text_color")}>{item.phone}</td>
-                    <td>{item.date}</td>
-                    <td className={cx("text_color")}>{item.address}</td>
-                    <td className={cx("text_color")}>{item.email}</td>
-                    <td className={cx("text_color")}>
-                      <div className={cx("table_option")}>
-                        <UpdateUser updateUser={updateUser} id={item.id} />
-                        <DeleteUser deleteUser={deleteUser} id={item.id} />
-                      </div>
-                    </td>
-                  </tr>
-                );
-              } else {
-                return (
-                  <tr key={index} className={cx("background__table")}>
-                    <td className={cx("text_color")}>{item.name}</td>
-                    <td className={cx("text_color")}>{item.phone}</td>
-                    <td>{item.date}</td>
-                    <td className={cx("text_color")}>{item.address}</td>
-                    <td className={cx("text_color")}>{item.email}</td>
-                    <td className={cx("text_color")}>
-                      <div className={cx("table_option")}>
-                        <UpdateUser updateUser={updateUser} id={item.id} />
-                        <DeleteUser deleteUser={deleteUser} id={item.id} />
-                      </div>
-                    </td>
-                  </tr>
-                );
-              }
-            })}
-          </tbody>
         </table>
       </div>
 
-      <div className={cx("pagination")}>
-        <div className={cx("pagination_title")}>
-          <span>Số bản ghi</span>
-          <select aria-label="State" className={cx("paging_option")}>
-            <option defaultValue={"10"}>10</option>
-            <option value="15">15</option>
-            <option value="20">20</option>
-          </select>
-        </div>
-        <div className={cx("pagination_status")}>1-10 of 20</div>
-        <div>
-          <Icon icon="arrow-left-line" className={cx("arrow-left-line")} />
-          <Icon icon="arrow-right-line" className={cx("arrow-right-line")} />
-        </div>
-      </div>
+      {/* paghination */}
+      <Paghination data={arrayUser} />
     </div>
   );
 }

@@ -30,7 +30,7 @@ function DeleteUser(props) {
         className={cx("delete")}
         onClick={() => handleOpen()}
       />
-      <Modal full show={open} sonHide={handleClose}>
+      <Modal size="sm" show={open} sonHide={handleClose}>
         <Modal.Header onClick={() => handleClose()}>
           <Modal.Title>Xóa khách hàng</Modal.Title>
         </Modal.Header>

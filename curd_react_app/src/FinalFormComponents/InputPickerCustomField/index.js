@@ -9,9 +9,11 @@ InputPickerCustomField.propTypes = {
 
 function InputPickerCustomField(props) {
   const { inputStyle, inputValue, inputClassname, input, onChange } = props;
+  let val = input.value ? input.value : "Chọn"
   return (
     <CustomField
       {...props}
+      placeholder={val}
       style={inputStyle}
       className={`${inputClassname}`}
       data={inputValue}

@@ -6,7 +6,10 @@ InputCustomField.propTypes = {};
 
 
 function InputCustomField(props) {
-  const { inputstyle, inputclassname, value, onChange, ...rest } = props;
+  const { inputstyle, inputclassname, value, onChange,input, ...rest } = props;
+  
+  let valueInput = input.value ? input.value : null;
+
 
   return (
     <CustomField
@@ -16,7 +19,7 @@ function InputCustomField(props) {
       accepter={Input}
       block
       {...rest}
-      value={value}
+      value={valueInput}
     />
   );
 }

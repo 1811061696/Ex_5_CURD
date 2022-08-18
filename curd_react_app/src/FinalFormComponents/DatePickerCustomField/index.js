@@ -20,6 +20,7 @@ function DatePickerCustomField(props) {
     ...rest
   } = props;
   let val = input.value ? new Date(input.value) : null;
+  
   return (
     <CustomField
       {...props}
