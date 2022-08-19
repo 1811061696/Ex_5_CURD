@@ -12,35 +12,19 @@ function Paghination(props) {
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
-  const itemsPerPage = 6;
+  const itemsPerPage = 5;
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
     setCurrentItems(data.slice(itemOffset, endOffset));
     setPageCount(Math.ceil(data.length / itemsPerPage));
-  }, [itemOffset, itemsPerPage, data, currentItems]);
+  }, [itemOffset, itemsPerPage, data]);
 
+  // click page mới
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % data.length;
     setItemOffset(newOffset);
   };
-
-  function deleteUser(id) {
-    const newUser = data.filter((item) => {
-      return item.id !== id;
-    });
-    setCurrentItems(newUser);
-  }
-
-  function updateUser(value, id) {
-    const newArrUser = data.map((item) => {
-      if (item.id === id) {
-        return (item = value);
-      }
-      return item;
-    });
-    setCurrentItems(newArrUser);
-  }
 
   return (
     <div className={cx("paghination")}>
@@ -57,8 +41,14 @@ function Paghination(props) {
                   <td className={cx("text_color")}>{item.email}</td>
                   <td className={cx("text_color")}>
                     <div className={cx("table_option")}>
-                      <UpdateUser updateUser={updateUser} id={item.id} />
-                      <DeleteUser deleteUser={deleteUser} id={item.id} />
+                      <UpdateUser
+                        updateUser={props.handleUpdate}
+                        id={item.id}
+                      />
+                      <DeleteUser
+                        deleteUser={props.handleDelete}
+                        id={item.id}
+                      />
                     </div>
                   </td>
                 </tr>
@@ -73,8 +63,14 @@ function Paghination(props) {
                   <td className={cx("text_color")}>{item.email}</td>
                   <td className={cx("text_color")}>
                     <div className={cx("table_option")}>
-                      <UpdateUser updateUser={updateUser} id={item.id} />
-                      <DeleteUser deleteUser={deleteUser} id={item.id} />
+                      <UpdateUser
+                        updateUser={props.handleUpdate}
+                        id={item.id}
+                      />
+                      <DeleteUser
+                        deleteUser={props.handleDelete}
+                        id={item.id}
+                      />
                     </div>
                   </td>
                 </tr>
@@ -91,6 +87,8 @@ function Paghination(props) {
         pageCount={pageCount}
         previousLabel="< Trước"
         renderOnZeroPageCount={null}
+        activeClassName={cx("active")}
+        disabledClassName={cx("disabled")}
       />
     </div>
   );

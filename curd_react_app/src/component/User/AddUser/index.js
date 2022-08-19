@@ -1,13 +1,16 @@
 import {
   Button,
-  ButtonToolbar, ControlLabel, Form as RSForm,
-  FormGroup, Modal
+  ButtonToolbar,
+  ControlLabel,
+  Form as RSForm,
+  FormGroup,
+  Modal,
 } from "rsuite";
 
 import {
   DatePickerCustomField,
   InputCustomField,
-  InputPickerCustomField
+  InputPickerCustomField,
 } from "../../../FinalFormComponents";
 
 import classNames from "classnames/bind";
@@ -55,19 +58,19 @@ const handleCheckNumber = (value) => {
   }
 };
 
- // custom date 
- export const handleCustomDate = (value) => {
-  if(typeof (value.date) !== "object"){
-    return value.date
-  }else{
+// custom date
+export const handleCustomDate = (value) => {
+  if (typeof value.date !== "object") {
+    return value.date;
+  } else {
     const Year = value.date.getFullYear();
     const Month = value.date.getMonth() + 1;
     const Date = value.date.getDate();
     const date = Year + "-" + Month + "-" + Date;
-    
-    return date
+
+    return date;
   }
-}
+};
 
 function AddUser(props) {
   const formRef = useRef();
@@ -112,7 +115,7 @@ function AddUser(props) {
 
   // gọi Api và gửi đi data muốn push
   const onSubmit = async (values) => {
-    const date = handleCustomDate(values)
+    const date = handleCustomDate(values);
     const newValue = {
       ...values,
       date,
@@ -145,7 +148,7 @@ function AddUser(props) {
           <FieldForm
             onSubmit={onSubmit}
             initialValues={{}}
-            render={({ handleSubmit, values, submitting, pristine }) => (
+            render={({ handleSubmit, values, submitting, pristine, form }) => (
               <>
                 <RSForm
                   layout="inline"
@@ -218,11 +221,16 @@ function AddUser(props) {
                           valueKey="name"
                           labelKey="name"
                           validate={required}
+                          onSelect={(value) => {
+                            if (values.address) {
+                              form.change("address", null);
+                            }
+                            console.log(form)
+                          }}
                           onChange={(value) => {
                             handleCheckValue(value);
                           }}
                         />
-
                         <ControlLabel className={cx("input_lable_select")}>
                           Thành phố
                         </ControlLabel>
@@ -269,7 +277,7 @@ function AddUser(props) {
                       className="bg-blue text-white"
                       loading={submitting}
                       appearance="primary"
-                      >
+                    >
                       Lưu lại
                     </Button>
                     <Button

@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 const cx = classNames.bind(styles);
 
 function FillterUser(props) {
+
+
   const [arrayUser, setArrUser] = useState(Object.values(props).flat(1));
   const [arrCity, setArrayCity] = useState([]); // data thành phố
   // lấy data city
@@ -21,8 +23,12 @@ function FillterUser(props) {
   }, []);
   const data = arrCity;
 
+
+
   function hadleFillter(arrayUser, value) {
     const dataRender = [];
+
+    console.log(arrayUser)
     arrayUser.map((item) => {
       if (item.name === value) {
         dataRender.push(item);
@@ -33,9 +39,7 @@ function FillterUser(props) {
       } else if (item.date === value) {
         dataRender.push(item);
       }
-    //   console.log(dataRender)
-    //   props.onGetdata(dataRender)
-    console.log(props.onGetdata)
+      props.onGetdata(dataRender)
     });
   }
 
@@ -77,8 +81,9 @@ function FillterUser(props) {
               className={cx("input")}
               placeholder=""
               onBlur={(e) => {
-                hadleFillter(arrayUser, e.target.value);
-                e.target.value = "";
+                // hadleFillter(arrayUser, e.target.value);
+                // e.target.value = "";
+                console.log(e.target.innerText)
               }}
             />
             <span className={cx("input_lable")}>Quận/Huyện</span>
@@ -87,8 +92,8 @@ function FillterUser(props) {
             <DatePicker
               className={cx("input_date")}
               onBlur={(e) => {
-                hadleFillter(arrayUser, e.target.innerText);
-                e.target.value = "";
+                // hadleFillter(arrayUser, e.target.innerText);
+                // e.target.value = "";
               }}
             />
             <span className={cx("input_lable")}>Ngày sinh</span>

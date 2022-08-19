@@ -24,6 +24,7 @@ import styles from "./UpdateUser.module.scss";
 const cx = classNames.bind(styles);
 
 function UpdateUser(props) {
+
   const formRef = useRef();
   const id = props.id;
   const [user, setUser] = useState([]);
@@ -38,6 +39,7 @@ function UpdateUser(props) {
       setUser(item);
     });
   }, []);
+
 
   // sử lý kiểm tra value của thành phố
   const handleCheckValue = (value) => {
@@ -74,20 +76,17 @@ function UpdateUser(props) {
 
   // handle updates
   const onSubmit = async (values) => {
-  
-    const date = handleCustomDate(values)
+    const date = handleCustomDate(values);
 
     const newValue = {
       ...values,
       date,
     };
 
-
     await handleUpdateUser(newValue, id);
     props.updateUser(newValue, id);
-
+    setUser(newValue)
   };
-
 
   // bật tắt module
   const [open, setOpen] = useState(false);
@@ -202,7 +201,7 @@ function UpdateUser(props) {
                           component={InputPickerCustomField}
                           inputValue={arrDistrist}
                           valueKey="name"
-                          labelKey="name" 
+                          labelKey="name"
                           validate={required}
                           onChange={() => {}}
                         />
@@ -220,7 +219,7 @@ function UpdateUser(props) {
                           component={InputPickerCustomField}
                           inputValue={arrCity}
                           valueKey="name"
-                          labelKey="name" 
+                          labelKey="name"
                           validate={required}
                           onChange={(value) => {
                             handleCheckValue(value);

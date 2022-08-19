@@ -15,6 +15,7 @@
         padding: 4px 8px;
         border-radius: 4px;
         color: var(--gray900);
+        border: var(--gray200) 1px solid;
         text-decoration: none;
 
         &:hover {
@@ -23,6 +24,16 @@
           color: var(--background-color);
         }
       }
+    }
+
+    li.active a {
+      background-color: #0366d6;
+      border-color: transparent;
+      color: var(--background-color);
+      min-width: 32px;
+    }
+    li.disabled {
+      opacity: 0.4;
     }
   }
 

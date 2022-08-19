@@ -9,7 +9,8 @@ import styles from "./TableUser.module.scss";
 
 const cx = classNames.bind(styles);
 
-function Tableuser(props) {
+
+function Tableuser() {
   const [arrayUser, setArrayUser] = useState([]);
   const [showFilter, setShowFillter] = useState(false);
 
@@ -24,13 +25,33 @@ function Tableuser(props) {
   }, []);
 
   function getDataUser(data) {
+    window.location.reload()
     if (data) return setArrayUser([...arrayUser, data]);
+  }
+
+   // sử lý xóa user
+   function deleteUser(id) {
+    const newUser = arrayUser.filter((item) => {
+      return item.id !== id;
+    });
+    setArrayUser(newUser);
+  }
+
+  // update user
+  function updateUser(value, id) {
+    const newUser = {...value, id: id}
+    const newArrUser = arrayUser.map((item) => {
+      if (item.id === id) {
+        return (item = newUser);
+      }
+      return item;
+    });
+    setArrayUser(newArrUser);
   }
 
   function getDataFillterUser(data) {
     console.log(data);
     if (data) return setArrayUser(data);
-    // console.log(arrayUser)
   }
 
   function handleShowFilter(e) {
@@ -39,6 +60,7 @@ function Tableuser(props) {
       setShowFillter(true);
     } else if (e.target.innerText === "Ẩn bộ lọc") {
       e.target.innerText = "Bộ lọc";
+      window.location.reload()
       setShowFillter(false);
     }
   }
@@ -90,7 +112,7 @@ function Tableuser(props) {
       </div>
 
       {/* paghination */}
-      <Paghination data={arrayUser} />
+      <Paghination data={[...arrayUser]} handleUpdate={updateUser} handleDelete={deleteUser} />
     </div>
   );
 }
