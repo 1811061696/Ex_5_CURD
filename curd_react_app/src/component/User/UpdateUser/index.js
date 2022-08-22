@@ -136,7 +136,6 @@ function UpdateUser(props) {
         </Modal.Header>
 
         <Modal.Body className={cx("modal_body")}>
-          {/* {console.log(user)} */}
           <FieleForm
             onSubmit={onSubmit}
             initialValues={{
@@ -149,7 +148,6 @@ function UpdateUser(props) {
             }}
             render={({ handleSubmit, values, submitting, pristine, form }) => (
               <>
-                <pre>{JSON.stringify(values, 0, 2)}</pre>
                 <RSForm
                   layout="inline"
                   className={cx("modal_input")}

@@ -70,6 +70,7 @@ function FillterUser(props) {
       date,
     };
 
+    // eslint-disable-next-line array-callback-return
     props.data.map((item) => {
       if (
         newValue.name !== undefined &&

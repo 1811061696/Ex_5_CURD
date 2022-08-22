@@ -15,10 +15,10 @@ function DefaultLayout({ children }) {
       <div className={cx("container")}>
         <Grid fluid>
           <Row className="show-grid">
-            <Col xs={4}>
+            <Col md={4} sm={0} sx={0} style={{padding: 0}}> 
               <Sidebar />
             </Col>
-            <Col xs={20}>
+            <Col md={20} sm={24} xs={24} style={{padding: 0}}>
               <div className={cx("content")}>{children}</div>
             </Col>
           </Row>
