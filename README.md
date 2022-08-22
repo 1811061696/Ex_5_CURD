@@ -3,9 +3,9 @@
 # Chuẩn bị
 - Api
     install 
-        * `npm install -g json-server`
+        : `npm install -g json-server`
     start
-        *  json-server --watch data.json
+        :  json-server --watch data.json
 ==> fake Api 
     + http://localhost:3000/product
     + http://localhost:3000/user
