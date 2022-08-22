@@ -24,7 +24,6 @@ import styles from "./UpdateUser.module.scss";
 const cx = classNames.bind(styles);
 
 function UpdateUser(props) {
-
   const formRef = useRef();
   const id = props.id;
   const [user, setUser] = useState([]);
@@ -39,7 +38,6 @@ function UpdateUser(props) {
       setUser(item);
     });
   }, []);
-
 
   // sử lý kiểm tra value của thành phố
   const handleCheckValue = (value) => {
@@ -85,7 +83,8 @@ function UpdateUser(props) {
 
     await handleUpdateUser(newValue, id);
     props.updateUser(newValue, id);
-    setUser(newValue)
+    setUser(newValue);
+    handleClose()
   };
 
   // bật tắt module
@@ -148,7 +147,7 @@ function UpdateUser(props) {
               valueCity: user.valueCity,
               email: user.email,
             }}
-            render={({ handleSubmit, values, submitting, pristine }) => (
+            render={({ handleSubmit, values, submitting, pristine, form }) => (
               <>
                 <pre>{JSON.stringify(values, 0, 2)}</pre>
                 <RSForm
@@ -221,6 +220,11 @@ function UpdateUser(props) {
                           valueKey="name"
                           labelKey="name"
                           validate={required}
+                          onSelect={(value) => {
+                            if (values.address) {
+                              form.change("address", null);
+                            }
+                          }}
                           onChange={(value) => {
                             handleCheckValue(value);
                           }}

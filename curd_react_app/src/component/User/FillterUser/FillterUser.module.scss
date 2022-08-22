@@ -1,62 +1,57 @@
 .fillter_wrapper {
-  margin: 30px 0;
   padding: 0 16px;
+}
 
-  .input_double {
-    display: flex;
-    justify-content: space-between;
-
-    .input_form {
-      width: calc(100% / 2 - 20px);
-      position: relative;
-
-      .input {
-        width: 100%;
-        margin-top: 16px;
-      }
-
-      .input_lable {
-        color: var(--gray500);
-        position: absolute;
-        left: 18px;
-        top: 18px;
-        z-index: 11;
-        transform: translateY(-50%);
-        background-color: white;
-        transition: 0.1s ease-out;
-        transform-origin: left top;
-        pointer-events: none;
-        font-style: normal;
-        font-weight: var(--font-normal);
-        font-size: var(--text-xs);
-        line-height: 12px;
-        letter-spacing: 0.15px;
-      }
-
-      .input_date {
-        width: 100%;
-        margin-top: 16px;
-
-        a {
-          span::before {
-            opacity: 1;
-            color: rgba(0, 0, 0, 0);
-            background: url("../../../img/Vector.svg") no-repeat;
-            position: absolute;
-            right: -30px;
-            width: 50px;
-            height: 20px;
-            top: -1px;
-
-            &:hover {
-              cursor: pointer;
-            }
-          }
-
-          span + span {
-            padding-right: 8px;
-          }
+.modal_input {
+  .input_wrapper {
+    margin: 0;
+    div {
+      margin-bottom: 10px;
+      div {
+        div {
+          margin: 0;
+          width: 300px;
         }
+      }
+    }
+  }
+
+  div {
+    .input_lable_select {
+      margin: 9px 0 0 10px;
+    }
+  }
+
+  .form_footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 180px;
+  }
+}
+
+.input_date {
+  width: 300px;
+  a {
+    width: 100%;
+    height: 36px;
+    padding: 8px 0 8px;
+
+    span{
+      padding-right: 8px;
+    }
+
+    span::before {
+      opacity: 1;
+      color: rgba(0, 0, 0, 0);
+      background: url("../../../img/Vector.svg") no-repeat;
+      position: absolute;
+      right: -30px;
+      width: 50px;
+      height: 20px;
+      top: -1px;
+
+      &:hover {
+        cursor: pointer;
       }
     }
   }

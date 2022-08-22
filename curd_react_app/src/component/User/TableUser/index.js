@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import { useEffect, useState } from "react";
-import { Button, Icon, Input, InputGroup } from "rsuite";
+import { Icon, Input, InputGroup } from "rsuite";
 import { getUser } from "../../../Api/ApiUser";
 import AddUser from "../AddUser";
 import FillterUser from "../FillterUser";
@@ -9,28 +9,28 @@ import styles from "./TableUser.module.scss";
 
 const cx = classNames.bind(styles);
 
-
 function Tableuser() {
   const [arrayUser, setArrayUser] = useState([]);
-  const [showFilter, setShowFillter] = useState(false);
+  const [userSearch, setUserSearch] = useState([]);
 
   useEffect(() => {
     let change = true;
     getUser().then((items) => {
       if (change) {
         setArrayUser(items.reverse());
+        setUserSearch(items);
       }
     });
     return () => (change = false);
   }, []);
 
   function getDataUser(data) {
-    window.location.reload()
+    window.location.reload();
     if (data) return setArrayUser([...arrayUser, data]);
   }
 
-   // sử lý xóa user
-   function deleteUser(id) {
+  // sử lý xóa user
+  function deleteUser(id) {
     const newUser = arrayUser.filter((item) => {
       return item.id !== id;
     });
@@ -39,7 +39,7 @@ function Tableuser() {
 
   // update user
   function updateUser(value, id) {
-    const newUser = {...value, id: id}
+    const newUser = { ...value, id: id };
     const newArrUser = arrayUser.map((item) => {
       if (item.id === id) {
         return (item = newUser);
@@ -54,16 +54,20 @@ function Tableuser() {
     if (data) return setArrayUser(data);
   }
 
-  function handleShowFilter(e) {
-    if (e.target.innerText === "Bộ lọc") {
-      e.target.innerText = "Ẩn bộ lọc";
-      setShowFillter(true);
-    } else if (e.target.innerText === "Ẩn bộ lọc") {
-      e.target.innerText = "Bộ lọc";
-      window.location.reload()
-      setShowFillter(false);
+  const getValueSearch = (value) => {
+    const valueSearch = value;
+    const arraySearch = userSearch.filter((value) => {
+      return (
+        value.name.toUpperCase().includes(valueSearch.toUpperCase()) ||
+        value.phone.toUpperCase().includes(valueSearch.toUpperCase())
+      );
+    });
+    if (arraySearch.length !== 0) {
+      setArrayUser(arraySearch);
+    } else {
+      setArrayUser([{name: "Không có khách hàng phù hợp!!!"}])
     }
-  }
+  };
 
   return (
     <div className={cx("wrapper")}>
@@ -71,7 +75,7 @@ function Tableuser() {
       <div className={cx("wrapper_option")}>
         <div className="search_group">
           <InputGroup>
-            <Input style={{ width: 350 }} />
+            <Input style={{ width: 350 }} onChange={getValueSearch} />
             <InputGroup.Addon>
               <Icon icon="search" className={cx("search_icon")} />
             </InputGroup.Addon>
@@ -81,21 +85,9 @@ function Tableuser() {
           <div>
             <AddUser onGetdata={getDataUser} />
           </div>
-          <Button
-            appearance="default"
-            className={cx("button_default")}
-            onClick={handleShowFilter}
-            style={{ color: "#1C64F2" }}
-          >
-            Bộ lọc
-          </Button>
+          <FillterUser data={arrayUser} onGetdata={getDataFillterUser} />
         </div>
       </div>
-      {showFilter === true ? (
-        <FillterUser data={arrayUser} onGetdata={getDataFillterUser} />
-      ) : (
-        ""
-      )}
       <div className={cx("table_product_table")}>
         <table className={cx("table")}>
           <thead>
@@ -112,7 +104,11 @@ function Tableuser() {
       </div>
 
       {/* paghination */}
-      <Paghination data={[...arrayUser]} handleUpdate={updateUser} handleDelete={deleteUser} />
+      <Paghination
+        data={[...arrayUser]}
+        handleUpdate={updateUser}
+        handleDelete={deleteUser}
+      />
     </div>
   );
 }

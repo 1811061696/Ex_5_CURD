@@ -42,7 +42,7 @@ const handleCheckEmail = (value) => {
   }
 };
 
-const handleCheckNumber = (value) => {
+export const handleCheckNumber = (value) => {
   if (value) {
     if (!value.match("[0-9]{14}")) {
       if (!(value.length > 9 && value.length < 12)) {
@@ -124,6 +124,7 @@ function AddUser(props) {
     // gọi Api post user và truyền đi data
     await createUser(newValue);
     props.onGetdata(newValue); // render lại table
+    handleClose()
   };
 
   // bật tắt module
@@ -225,7 +226,6 @@ function AddUser(props) {
                             if (values.address) {
                               form.change("address", null);
                             }
-                            console.log(form)
                           }}
                           onChange={(value) => {
                             handleCheckValue(value);

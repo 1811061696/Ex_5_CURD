@@ -31,6 +31,9 @@ function Paghination(props) {
       <table>
         <tbody className={cx("list__table")}>
           {currentItems.reverse().map((item, index) => {
+            if(item.name === "Không có khách hàng phù hợp!!!"){
+              return (<p style={{color: "red", marginTop: 8}}>Không có khách hàng phù hợp</p>)
+            }
             if (index % 2 === 0) {
               return (
                 <tr key={index}>
