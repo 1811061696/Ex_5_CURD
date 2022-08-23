@@ -11,6 +11,7 @@ import {
   DatePickerCustomField,
   InputCustomField,
   InputPickerCustomField,
+  UploaderCustomField,
 } from "../../../FinalFormComponents";
 
 import classNames from "classnames/bind";
@@ -79,6 +80,7 @@ function AddUser(props) {
   const [arrCity, setArrayCity] = useState([]); // data thành phố
   const [arrDistrist, setArrayDistrist] = useState([]); // data quận huyện
   const [valueCity, setValueCity] = useState(); // value thành phố
+  const [image, setImage] = useState();
 
   // sử lý kiểm tra value của thành phố
   const handleCheckValue = (value) => {
@@ -119,12 +121,16 @@ function AddUser(props) {
     const newValue = {
       ...values,
       date,
+      image,
     };
 
+    console.log(values)
+    console.log(newValue)
+
     // gọi Api post user và truyền đi data
-    await createUser(newValue);
-    props.onGetdata(newValue); // render lại table
-    handleClose()
+    // await createUser(newValue);
+    // props.onGetdata(newValue); // render lại table
+    // handleClose();
   };
 
   // bật tắt module
@@ -133,6 +139,7 @@ function AddUser(props) {
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
+
   return (
     <div className="modal-container">
       <ButtonToolbar>
@@ -265,6 +272,26 @@ function AddUser(props) {
                         />
                         <ControlLabel className={cx("input_lable_select")}>
                           Email
+                        </ControlLabel>
+                      </div>
+                    </FormGroup>
+                  </div>
+
+                  {/* =========================================== */}
+
+                  <div>
+                    <FormGroup>
+                      <div>
+                        <Field
+                          labelclassname="text-left"
+                          component={UploaderCustomField}
+                          listType="picture"
+                          name="image"
+                          multiple={true}
+                          removable={true}
+                        />
+                        <ControlLabel className={cx("input_lable_select")}>
+                          Avata
                         </ControlLabel>
                       </div>
                     </FormGroup>

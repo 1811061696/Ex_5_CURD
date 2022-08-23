@@ -16,11 +16,11 @@ export function createUser(data, callback) {
       "Content-Type": "application/json",
     },
   };
-  console.log(options.body);
+  console.log(data);
   fetch(ApiUser, options)
     .then((response) => response.json())
     .then(callback)
-    .then(alert("Thêm thành công"));
+    // .then(alert("Thêm thành công"));
 }
 
 export function handleDeleteUser(id) {

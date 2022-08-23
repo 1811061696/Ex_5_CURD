@@ -18,7 +18,6 @@ function Header() {
   };
 
   window.addEventListener('resize', function(event){
-    console.log(window.innerWidth)
     if(window.innerWidth < 990){
       setShowIconMenu(true)
     }

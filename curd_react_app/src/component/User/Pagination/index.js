@@ -1,6 +1,7 @@
 import classNames from "classnames/bind";
 import { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
+import { Icon } from "rsuite";
 import DeleteUser from "../DeleteUser";
 import UpdateUser from "../UpdateUser";
 import styles from "./Paghination.module.scss";
@@ -9,6 +10,8 @@ const cx = classNames.bind(styles);
 
 function Paghination(props) {
   const data = props.data;
+  const [showInformation, setShowInformation] = useState(false);
+  const [idShowInformation, setIdShowInformation] = useState(null);
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
@@ -26,57 +29,135 @@ function Paghination(props) {
     setItemOffset(newOffset);
   };
 
+  const handleShowInformation = (e) => {
+    setIdShowInformation(e.target.id);
+    setShowInformation(!showInformation);
+  };
   return (
     <div className={cx("paghination")}>
       <table>
+        <thead>
+          <tr className={cx("background__table")}>
+            <td>#</td>
+            <td>Họ tên</td>
+            {/* <td>Số điện thoại</td> */}
+            {/* <td>Ngày sinh</td> */}
+            <td>Địa chỉ</td>
+            <td>Email</td>
+            <td>Chức năng</td>
+          </tr>
+        </thead>
         <tbody className={cx("list__table")}>
           {currentItems.reverse().map((item, index) => {
-            if(item.name === "Không có khách hàng phù hợp!!!"){
-              return (<p style={{color: "red", marginTop: 8}}>Không có khách hàng phù hợp</p>)
+            // console.log(item.image )
+            if (item.name === "Không có khách hàng phù hợp!!!") {
+              return (
+                <p style={{ color: "red", marginTop: 8 }}>
+                  Không có khách hàng phù hợp
+                </p>
+              );
             }
             if (index % 2 === 0) {
               return (
-                <tr key={index}>
-                  <td className={cx("text_color")}>{item.name}</td>
-                  <td className={cx("text_color")}>{item.phone}</td>
-                  <td>{item.date}</td>
-                  <td className={cx("text_color")}>{item.address}</td>
-                  <td className={cx("text_color")}>{item.email}</td>
-                  <td className={cx("text_color")}>
-                    <div className={cx("table_option")}>
-                      <UpdateUser
-                        updateUser={props.handleUpdate}
+                <>
+                  <tr key={index}>
+                    <td>
+                      <Icon
                         id={item.id}
+                        onClick={handleShowInformation}
+                        icon={
+                          showInformation === true &&
+                          idShowInformation === item.id
+                            ? "minus-square-o"
+                            : "plus-square-o"
+                        }
                       />
-                      <DeleteUser
-                        deleteUser={props.handleDelete}
-                        id={item.id}
+                    </td>
+                    <td className={cx("text_color")}>{item.name}</td>
+                    {/* <td className={cx("text_color")}>{item.phone}</td> */}
+                    {/* <td>{item.date}</td> */}
+                    <td className={cx("text_color")}>{item.address}</td>
+                    <td className={cx("text_color")}>{item.email}</td>
+                    <td className={cx("text_color")}>
+                      <div className={cx("table_option")}>
+                        <UpdateUser
+                          updateUser={props.handleUpdate}
+                          id={item.id}
+                        />
+                        <DeleteUser
+                          deleteUser={props.handleDelete}
+                          id={item.id}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+
+                  {showInformation === true && idShowInformation === item.id ? (
+                    <div className={cx("user_information")}>
+                      <img
+                        src={item.image}
+                        alt="avata"
                       />
+                      <div>
+                        <p>Số điện thoại: {item.phone}</p>
+                        <p>Ngày sinh: {item.date}</p>
+                      </div>
                     </div>
-                  </td>
-                </tr>
+                  ) : (
+                    ""
+                  )}
+                </>
               );
             } else {
               return (
-                <tr key={index} className={cx("background__table")}>
-                  <td className={cx("text_color")}>{item.name}</td>
-                  <td className={cx("text_color")}>{item.phone}</td>
-                  <td>{item.date}</td>
-                  <td className={cx("text_color")}>{item.address}</td>
-                  <td className={cx("text_color")}>{item.email}</td>
-                  <td className={cx("text_color")}>
-                    <div className={cx("table_option")}>
-                      <UpdateUser
-                        updateUser={props.handleUpdate}
+                <>
+                  <tr key={index} className={cx("background__table")}>
+                    <td>
+                      <Icon
                         id={item.id}
+                        onClick={handleShowInformation}
+                        icon={
+                          showInformation === true &&
+                          idShowInformation === item.id
+                            ? "minus-square-o"
+                            : "plus-square-o"
+                        }
                       />
-                      <DeleteUser
-                        deleteUser={props.handleDelete}
-                        id={item.id}
+                    </td>
+                    <td className={cx("text_color")}>{item.name}</td>
+                    {/* <td className={cx("text_color")}>{item.phone}</td> */}
+                    {/* <td>{item.date}</td> */}
+                    <td className={cx("text_color")}>{item.address}</td>
+                    <td className={cx("text_color")}>{item.email}</td>
+                    <td className={cx("text_color")}>
+                      <div className={cx("table_option")}>
+                        <UpdateUser
+                          updateUser={props.handleUpdate}
+                          id={item.id}
+                        />
+                        <DeleteUser
+                          deleteUser={props.handleDelete}
+                          id={item.id}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+
+                  {showInformation === true && idShowInformation === item.id ? (
+                    <div className={cx("user_information")}>
+                      <img
+                        src={item.image}
+                        alt="avata"
                       />
+                      <div>
+                        <p>Số điện thoại: {item.phone}</p>
+                        <p>Ngày sinh: {item.date}</p>
+                      </div>
                     </div>
-                  </td>
-                </tr>
+                  ) : (
+                    ""
+                  )}
+                </>
               );
             }
           })}

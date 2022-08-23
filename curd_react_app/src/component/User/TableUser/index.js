@@ -89,33 +89,20 @@ function Tableuser() {
           <FillterUser data={arrayUser} onGetdata={getDataFillterUser} />
         </div>
       </div>
-      <div className={cx("table_product_table")}>
-        <table className={cx("table")}>
-          <thead>
-            <tr className={cx("background__table")}>
-              <td style={{width: 200}}>Họ tên</td>
-              <td style={{width: 130}}>Số điện thoại</td>
-              <td style={{width: 120}}>Ngày sinh</td>
-              <td style={{width: 200}}>Địa chỉ</td>
-              <td style={{width: 280}}>Email</td>
-              <td style={{width: 100}}>Chức năng</td>
-            </tr>
-          </thead>
-        </table>
+      <div className={cx("table_product_table")} >
+        {/* paghination */}
+        <Grid fluid >
+          <Row className="show-grid">
+            <Col xs={24} >
+              <Paghination
+                data={[...arrayUser]}
+                handleUpdate={updateUser}
+                handleDelete={deleteUser}
+              />
+            </Col>
+          </Row>
+        </Grid>
       </div>
-
-      {/* paghination */}
-      <Grid fluid>
-        <Row className="show-grid">
-          <Col xs={24}>
-            <Paghination
-              data={[...arrayUser]}
-              handleUpdate={updateUser}
-              handleDelete={deleteUser}
-            />
-          </Col>
-        </Row>
-      </Grid>
     </div>
   );
 }
