@@ -124,13 +124,10 @@ function AddUser(props) {
       image,
     };
 
-    console.log(values)
-    console.log(newValue)
-
     // gọi Api post user và truyền đi data
-    // await createUser(newValue);
-    // props.onGetdata(newValue); // render lại table
-    // handleClose();
+    await createUser(newValue);
+    props.onGetdata(newValue); // render lại table
+    handleClose();
   };
 
   // bật tắt module
@@ -139,6 +136,29 @@ function AddUser(props) {
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
+
+  //
+
+  //
+  const imgRef = useRef();
+  const handlePreview = (e) => {
+    const file = e.target.files[0];
+    const render = new FileReader();
+
+    render.addEventListener(
+      "load",
+      function () {
+        imgRef.current.src = render.result;
+        setImage(render.result);
+      },
+      false
+    );
+
+    if (file) {
+      render.readAsDataURL(file);
+    }
+  };
+
 
   return (
     <div className="modal-container">
@@ -281,14 +301,18 @@ function AddUser(props) {
 
                   <div>
                     <FormGroup>
-                      <div>
+                      <div className={cx("form_upload")}>
                         <Field
-                          labelclassname="text-left"
-                          component={UploaderCustomField}
-                          listType="picture"
                           name="image"
-                          multiple={true}
-                          removable={true}
+                          component="input"
+                          type="file"
+                          onChange={handlePreview}
+                        />
+                        <img
+                          src=""
+                          alt=""
+                          ref={imgRef}
+                          className={cx("user_image")}
                         />
                         <ControlLabel className={cx("input_lable_select")}>
                           Avata

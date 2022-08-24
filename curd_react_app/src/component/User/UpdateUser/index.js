@@ -26,10 +26,13 @@ const cx = classNames.bind(styles);
 function UpdateUser(props) {
   const formRef = useRef();
   const id = props.id;
+
   const [user, setUser] = useState([]);
   const [arrCity, setArrayCity] = useState([]); // data thành phố
   const [arrDistrist, setArrayDistrist] = useState([]); // data quận huyện
   const [valueCity, setValueCity] = useState(); // value thành phố
+  const [image, setImage] = useState(user.src);
+
   let codeCity = user.codeCity;
 
   // get user
@@ -79,12 +82,13 @@ function UpdateUser(props) {
     const newValue = {
       ...values,
       date,
+      image
     };
 
     await handleUpdateUser(newValue, id);
     props.updateUser(newValue, id);
     setUser(newValue);
-    handleClose()
+    handleClose();
   };
 
   // bật tắt module
@@ -123,6 +127,26 @@ function UpdateUser(props) {
     }
   };
 
+  const imgRef = useRef();
+  // const showImage = () => {}
+  const handlePreview = (e) => {
+    const file = e.target.files[0];
+    const render = new FileReader();
+
+    render.addEventListener(
+      "load",
+      function () {
+        imgRef.current.src = render.result;
+        setImage(render.result);
+      },
+      false
+    );
+
+    if (file) {
+      render.readAsDataURL(file);
+    }
+  };
+
   return (
     <div className={cx("update_container")}>
       <Icon
@@ -134,7 +158,6 @@ function UpdateUser(props) {
         <Modal.Header onClick={() => handleClose()}>
           <Modal.Title>Cập nhập khách hàng</Modal.Title>
         </Modal.Header>
-
         <Modal.Body className={cx("modal_body")}>
           <FieleForm
             onSubmit={onSubmit}
@@ -148,6 +171,7 @@ function UpdateUser(props) {
             }}
             render={({ handleSubmit, values, submitting, pristine, form }) => (
               <>
+                <pre>{JSON.stringify(values, 0, 2)}</pre>
                 <RSForm
                   layout="inline"
                   className={cx("modal_input")}
@@ -265,6 +289,29 @@ function UpdateUser(props) {
                         />
                         <ControlLabel className={cx("input_lable_select")}>
                           Email
+                        </ControlLabel>
+                      </div>
+                    </FormGroup>
+                  </div>
+
+                  {/* ================================================ */}
+                  <div>
+                    <FormGroup>
+                      <div className={cx("form_upload")}>
+                        <Field
+                          name="image"
+                          component="input"
+                          type="file"
+                          onChange={handlePreview}
+                        />
+                        <img
+                          src={user.src}
+                          alt=""
+                          ref={imgRef}
+                          className={cx("user_image")}
+                        />
+                        <ControlLabel className={cx("input_lable_select")}>
+                          Avata
                         </ControlLabel>
                       </div>
                     </FormGroup>

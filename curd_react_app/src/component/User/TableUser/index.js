@@ -10,6 +10,8 @@ import styles from "./TableUser.module.scss";
 
 const cx = classNames.bind(styles);
 
+
+
 function Tableuser() {
   const [arrayUser, setArrayUser] = useState([]);
   const [userSearch, setUserSearch] = useState([]);
@@ -84,7 +86,7 @@ function Tableuser() {
         </div>
         <div className={cx("search_group_option")}>
           <div>
-            <AddUser onGetdata={getDataUser} />
+            <AddUser onGetdata={getDataUser}  data={[...arrayUser]}/>
           </div>
           <FillterUser data={arrayUser} onGetdata={getDataFillterUser} />
         </div>

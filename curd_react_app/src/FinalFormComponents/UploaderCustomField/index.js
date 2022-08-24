@@ -10,7 +10,6 @@ UploaderCustomField.propTypes = {
   inputclassname: PropTypes.string,
 };
 function UploaderCustomField(props) {
-  console.log(props);
   // props
   const { input, accept, inputstyle, inputclassname, ...rest } = props;
   const { value = "" } = input;

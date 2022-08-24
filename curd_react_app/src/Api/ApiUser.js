@@ -16,7 +16,7 @@ export function createUser(data, callback) {
       "Content-Type": "application/json",
     },
   };
-  console.log(data);
+  console.log(JSON.stringify(data));
   fetch(ApiUser, options)
     .then((response) => response.json())
     .then(callback)

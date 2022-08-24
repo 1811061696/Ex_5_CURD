@@ -10,6 +10,8 @@ const cx = classNames.bind(styles);
 
 function Paghination(props) {
   const data = props.data;
+  const [urlImage, setUrlImage] = useState();
+  const [showImage, setShowImage] = useState(false);
   const [showInformation, setShowInformation] = useState(false);
   const [idShowInformation, setIdShowInformation] = useState(null);
   const [currentItems, setCurrentItems] = useState([]);
@@ -33,8 +35,27 @@ function Paghination(props) {
     setIdShowInformation(e.target.id);
     setShowInformation(!showInformation);
   };
+
+  const handleShowImage = (e) => {
+    setUrlImage(e.target.src);
+    setShowImage(true);
+  };
+
+  const handleClose = () =>{
+    setShowImage(false)
+  }
+
+
   return (
     <div className={cx("paghination")}>
+      {showImage === true ? (
+        <div className={cx("show_image")}>
+          <img src={urlImage} alt="" onClick={handleClose}/>
+        </div>
+      ) : (
+        ""
+      )}
+
       <table>
         <thead>
           <tr className={cx("background__table")}>
@@ -49,7 +70,6 @@ function Paghination(props) {
         </thead>
         <tbody className={cx("list__table")}>
           {currentItems.reverse().map((item, index) => {
-            // console.log(item.image )
             if (item.name === "Không có khách hàng phù hợp!!!") {
               return (
                 <p style={{ color: "red", marginTop: 8 }}>
@@ -94,10 +114,16 @@ function Paghination(props) {
 
                   {showInformation === true && idShowInformation === item.id ? (
                     <div className={cx("user_information")}>
-                      <img
-                        src={item.image}
-                        alt="avata"
-                      />
+                      {item.image !== undefined ? (
+                        <img
+                          src={item.image}
+                          alt="avata"
+                          className={cx("avata_user")}
+                          onClick={handleShowImage}
+                        />
+                      ) : (
+                        <img src="" alt="avata" />
+                      )}
                       <div>
                         <p>Số điện thoại: {item.phone}</p>
                         <p>Ngày sinh: {item.date}</p>
@@ -145,10 +171,16 @@ function Paghination(props) {
 
                   {showInformation === true && idShowInformation === item.id ? (
                     <div className={cx("user_information")}>
-                      <img
-                        src={item.image}
-                        alt="avata"
-                      />
+                      {item.image !== undefined ? (
+                        <img
+                          src={item.image}
+                          alt="avata"
+                          className={cx("avata_user")}
+                          onClick={handleShowImage}
+                        />
+                      ) : (
+                        <img src="" alt="avata" />
+                      )}
                       <div>
                         <p>Số điện thoại: {item.phone}</p>
                         <p>Ngày sinh: {item.date}</p>
