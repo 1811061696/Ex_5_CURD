@@ -11,7 +11,9 @@ import {
   DatePickerCustomField,
   InputCustomField,
   InputPickerCustomField,
+  NumberCustomField,
   UploaderCustomField,
+  RadioCustomField,
 } from "../../../FinalFormComponents";
 
 import classNames from "classnames/bind";
@@ -20,6 +22,7 @@ import { Field, Form as FieldForm } from "react-final-form";
 import { getCity, getDistrist } from "../../../Api/Apiaddress";
 import { createUser } from "../../../Api/ApiUser";
 import styles from "./Adduser.module.scss";
+import userEvent from "@testing-library/user-event";
 
 const cx = classNames.bind(styles);
 
@@ -81,6 +84,7 @@ function AddUser(props) {
   const [arrDistrist, setArrayDistrist] = useState([]); // data quận huyện
   const [valueCity, setValueCity] = useState(); // value thành phố
   const [image, setImage] = useState();
+  const [sex, setsex] = useState("Nam");
 
   // sử lý kiểm tra value của thành phố
   const handleCheckValue = (value) => {
@@ -122,7 +126,9 @@ function AddUser(props) {
       ...values,
       date,
       image,
+      sex,
     };
+    console.log(values);
 
     // gọi Api post user và truyền đi data
     await createUser(newValue);
@@ -136,8 +142,6 @@ function AddUser(props) {
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
-
-  //
 
   //
   const imgRef = useRef();
@@ -159,6 +163,28 @@ function AddUser(props) {
     }
   };
 
+  const handleSex = (e) => {
+    const newSex = e.target.innerText;
+    setsex(newSex);
+  };
+
+  const radioList = [
+    {
+      value: 1,
+      label: "Nam",
+      onRadioChange: handleSex,
+    },
+    {
+      value: 2,
+      label: "Nữ",
+      onRadioChange: handleSex,
+    },
+    {
+      value: 3,
+      label: "Khác",
+      onRadioChange: handleSex,
+    },
+  ];
 
   return (
     <div className="modal-container">
@@ -206,7 +232,7 @@ function AddUser(props) {
                         <Field
                           className={cx("input_content")}
                           name="phone"
-                          component={InputCustomField}
+                          component={NumberCustomField}
                           placeholder=" "
                           validate={handleCheckNumber}
                         />
@@ -316,6 +342,21 @@ function AddUser(props) {
                         />
                         <ControlLabel className={cx("input_lable_select")}>
                           Avata
+                        </ControlLabel>
+                      </div>
+                    </FormGroup>
+
+                    <FormGroup>
+                      <div>
+                        <Field
+                          className={cx("input_sex")}
+                          name="sex"
+                          component={RadioCustomField}
+                          inputvalue={radioList}
+                          initialValue={sex}
+                        />
+                        <ControlLabel className={cx("input_lable_select")}>
+                          Giới tính
                         </ControlLabel>
                       </div>
                     </FormGroup>

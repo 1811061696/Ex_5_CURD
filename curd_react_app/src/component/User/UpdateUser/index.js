@@ -14,6 +14,8 @@ import {
   DatePickerCustomField,
   InputCustomField,
   InputPickerCustomField,
+  NumberCustomField,
+  RadioCustomField,
 } from "../../../FinalFormComponents";
 
 import classNames from "classnames/bind";
@@ -31,7 +33,8 @@ function UpdateUser(props) {
   const [arrCity, setArrayCity] = useState([]); // data thành phố
   const [arrDistrist, setArrayDistrist] = useState([]); // data quận huyện
   const [valueCity, setValueCity] = useState(); // value thành phố
-  const [image, setImage] = useState(user.src);
+  const [image, setImage] = useState(user.image);
+  const [sex, setsex] = useState(user.sex);
 
   let codeCity = user.codeCity;
 
@@ -82,7 +85,7 @@ function UpdateUser(props) {
     const newValue = {
       ...values,
       date,
-      image
+      image,
     };
 
     await handleUpdateUser(newValue, id);
@@ -126,7 +129,6 @@ function UpdateUser(props) {
       return "Required";
     }
   };
-
   const imgRef = useRef();
   // const showImage = () => {}
   const handlePreview = (e) => {
@@ -146,6 +148,31 @@ function UpdateUser(props) {
       render.readAsDataURL(file);
     }
   };
+
+
+  // handle Sex
+  const handleSex = (e) => {
+    const newSex = e.target.innerText;
+    setsex(newSex);
+  };
+
+  const radioList = [
+    {
+      value: 1,
+      label: "Nam",
+      onRadioChange: handleSex,
+    },
+    {
+      value: 2,
+      label: "Nữ",
+      onRadioChange: handleSex,
+    },
+    {
+      value: 3,
+      label: "Khác",
+      onRadioChange: handleSex,
+    },
+  ];
 
   return (
     <div className={cx("update_container")}>
@@ -171,7 +198,7 @@ function UpdateUser(props) {
             }}
             render={({ handleSubmit, values, submitting, pristine, form }) => (
               <>
-                <pre>{JSON.stringify(values, 0, 2)}</pre>
+                {/* <pre>{JSON.stringify(values, 0, 2)}</pre> */}
                 <RSForm
                   layout="inline"
                   className={cx("modal_input")}
@@ -200,7 +227,7 @@ function UpdateUser(props) {
                         <Field
                           className={cx("input_content")}
                           name="phone"
-                          component={InputCustomField}
+                          component={NumberCustomField}
                           placeholder=""
                           validate={handleCheckNumber}
                         />
@@ -305,13 +332,28 @@ function UpdateUser(props) {
                           onChange={handlePreview}
                         />
                         <img
-                          src={user.src}
+                          src={user.image}
                           alt=""
                           ref={imgRef}
                           className={cx("user_image")}
                         />
                         <ControlLabel className={cx("input_lable_select")}>
                           Avata
+                        </ControlLabel>
+                      </div>
+                    </FormGroup>
+
+                    <FormGroup>
+                      <div>
+                        <Field
+                          className={cx("input_sex")}
+                          name="sex"
+                          component={RadioCustomField}
+                          inputvalue={radioList}
+                          initialValue={sex}
+                        />
+                        <ControlLabel className={cx("input_lable_select")}>
+                          Giới tính
                         </ControlLabel>
                       </div>
                     </FormGroup>

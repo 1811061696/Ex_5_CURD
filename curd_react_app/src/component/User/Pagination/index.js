@@ -41,16 +41,15 @@ function Paghination(props) {
     setShowImage(true);
   };
 
-  const handleClose = () =>{
-    setShowImage(false)
-  }
-
+  const handleClose = () => {
+    setShowImage(false);
+  };
 
   return (
     <div className={cx("paghination")}>
       {showImage === true ? (
         <div className={cx("show_image")}>
-          <img src={urlImage} alt="" onClick={handleClose}/>
+          <img src={urlImage} alt="" onClick={handleClose} />
         </div>
       ) : (
         ""
@@ -61,7 +60,7 @@ function Paghination(props) {
           <tr className={cx("background__table")}>
             <td>#</td>
             <td>Họ tên</td>
-            {/* <td>Số điện thoại</td> */}
+            <td>Giới tính</td>
             {/* <td>Ngày sinh</td> */}
             <td>Địa chỉ</td>
             <td>Email</td>
@@ -83,6 +82,7 @@ function Paghination(props) {
                   <tr key={index}>
                     <td>
                       <Icon
+                        style={{ cursor: "pointer" }}
                         id={item.id}
                         onClick={handleShowInformation}
                         icon={
@@ -95,7 +95,7 @@ function Paghination(props) {
                     </td>
                     <td className={cx("text_color")}>{item.name}</td>
                     {/* <td className={cx("text_color")}>{item.phone}</td> */}
-                    {/* <td>{item.date}</td> */}
+                    <td>{item.sex}</td>
                     <td className={cx("text_color")}>{item.address}</td>
                     <td className={cx("text_color")}>{item.email}</td>
                     <td className={cx("text_color")}>
@@ -140,6 +140,7 @@ function Paghination(props) {
                   <tr key={index} className={cx("background__table")}>
                     <td>
                       <Icon
+                        style={{ cursor: "pointer" }}
                         id={item.id}
                         onClick={handleShowInformation}
                         icon={
@@ -152,7 +153,7 @@ function Paghination(props) {
                     </td>
                     <td className={cx("text_color")}>{item.name}</td>
                     {/* <td className={cx("text_color")}>{item.phone}</td> */}
-                    {/* <td>{item.date}</td> */}
+                    <td>{item.sex}</td>
                     <td className={cx("text_color")}>{item.address}</td>
                     <td className={cx("text_color")}>{item.email}</td>
                     <td className={cx("text_color")}>
