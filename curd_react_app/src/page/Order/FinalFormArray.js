@@ -2,6 +2,7 @@ import classNames from "classnames/bind";
 import styles from "./FinalFormArray.scss";
 import { Field, Form as FieldForm } from "react-final-form";
 import arrayMutators from "final-form-arrays";
+import { FieldArray } from "react-final-form-arrays";
 
 import {
   Button,
@@ -9,7 +10,6 @@ import {
   ControlLabel,
   Form as RSForm,
   FormGroup,
-  Modal,
 } from "rsuite";
 import { InputCustomField } from "../../FinalFormComponents";
 
@@ -73,34 +73,30 @@ function FinalFormArray() {
                     >
                       Add Customer
                     </Button>
-                    <Button className={cx("remove_customer")} type="button" onClick={() => pop("customers")}>
+                    <Button
+                      className={cx("remove_customer")}
+                      type="button"
+                      onClick={() => pop("customers")}
+                    >
                       Remove Customer
                     </Button>
                   </FormGroup>
-
-
-
                 </div>
 
-
-
                 <ButtonToolbar className={cx("form_footer")}>
-                    <Button
-                      type="submit"
-                      disabled={submitting || pristine}
-                      className="bg-blue text-white"
-                      loading={submitting}
-                      appearance="primary"
-                    >
-                      Lưu lại
-                    </Button>
-                    <Button
-                      style={{ marginRight: 15 }}
-                      loading={submitting}
-                    >
-                      Quay lại
-                    </Button>
-                  </ButtonToolbar>
+                  <Button
+                    type="submit"
+                    disabled={submitting || pristine}
+                    className="bg-blue text-white"
+                    loading={submitting}
+                    appearance="primary"
+                  >
+                    Lưu lại
+                  </Button>
+                  <Button style={{ marginRight: 15 }} loading={submitting}>
+                    Quay lại
+                  </Button>
+                </ButtonToolbar>
               </RSForm>
             </>
           )}
