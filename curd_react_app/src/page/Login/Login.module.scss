@@ -1,0 +1,77 @@
+.login_form {
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  background-color: #f8f8f8;
+  width: 500px;
+  box-shadow: var(--box-shadow);
+  position: fixed;
+  margin: auto;
+  top: 25%;
+  left: 25%;
+  right: 25%;
+
+  h1 {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 150%;
+    color: var(--gray800);
+  }
+
+  .login_form_input {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    margin-top: 20px;
+    position: relative;
+
+    input {
+      padding-left: 35px;
+    }
+
+    .input_lable_select {
+      width: 100px;
+      text-align: start;
+    }
+
+    .user_icon {
+      position: absolute;
+      top: 0px;
+      left: 144px;
+      width: 30px;
+      height: 36px;
+      background: rgb(80, 199, 199);
+      padding-top: 10px;
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+    }
+
+    .pass_icon {
+      position: absolute;
+      top: 46px;
+      left: 144px;
+      width: 30px;
+      height: 36px;
+      background: rgb(80, 199, 199);
+      padding-top: 10px;
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+    }
+  }
+
+  .input_error {
+    div {
+      height: 0;
+    }
+    position: absolute;
+    bottom: 70px;
+    left: 40px;
+
+    label {
+      margin: 0;
+    }
+  }
+}

@@ -3,7 +3,7 @@ import Footer from "../../component/Layout/DefaultLayout/Footer";
 
 import classNames from "classnames/bind";
 import styles from "./Order.module.scss";
-import FinalFormArray from "./FinalFormArray";
+import OrderContainer from "../../component/Order/OrderContainer";
 
 const cx = classNames.bind(styles);
 
@@ -14,7 +14,7 @@ function Order() {
         <Row className="show-grid">
           <Col xs={24}>
             <div className={cx("order_container")}>
-              <FinalFormArray />
+              <OrderContainer />
             </div>
           </Col>
           <Col xs={24}>

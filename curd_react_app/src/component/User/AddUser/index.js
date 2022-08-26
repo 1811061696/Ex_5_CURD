@@ -22,7 +22,6 @@ import { Field, Form as FieldForm } from "react-final-form";
 import { getCity, getDistrist } from "../../../Api/Apiaddress";
 import { createUser } from "../../../Api/ApiUser";
 import styles from "./Adduser.module.scss";
-import userEvent from "@testing-library/user-event";
 
 const cx = classNames.bind(styles);
 

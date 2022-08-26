@@ -2,7 +2,7 @@
 import classNames from 'classnames/bind';
 import styles from './index'
 
-const cx = classNames(styles)
+const cx = classNames.bind(styles)
 
 function Table({data}) {
     console.log(data)

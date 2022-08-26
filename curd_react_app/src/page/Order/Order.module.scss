@@ -1,9 +1,10 @@
-.order_wrapper{
-
-    .order_container{
-        background-color: var(--background-color);
-        border-radius: 16px;
-        margin-top: 8px;
-        min-height: 66vh;
-    }
+.order_wrapper {
+  .order_container {
+    align-items: flex-start;
+    padding: 24px;
+    background: #ffffff;
+    box-shadow: var(--box-shadow);
+    border-radius: 16px;
+    margin-top: 16px;
+  }
 }
