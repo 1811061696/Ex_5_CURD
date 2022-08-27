@@ -4,12 +4,10 @@ import CustomField from "../CustomField";
 
 InputCustomField.propTypes = {};
 
-
 function InputCustomField(props) {
-  const { inputstyle, inputclassname, value, onChange,input, ...rest } = props;
-  
-  let valueInput = input.value ? input.value : null;
+  const { inputstyle, inputclassname, value, onChange, input, ...rest } = props;
 
+  let valueInput = input.value ? input.value : null;
 
   return (
     <CustomField
@@ -23,6 +21,5 @@ function InputCustomField(props) {
     />
   );
 }
-
 
 export default memo(InputCustomField);

@@ -16,6 +16,7 @@ function NumberCustomField(props) {
       min={0}
       accepter={InputNumber}
       onChange={(value, e) => {
+        // console.log(value)
         input.onChange(value)
         onChange && onChange(value)
       }}
