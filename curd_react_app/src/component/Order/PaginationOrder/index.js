@@ -4,14 +4,19 @@ import ReactPaginate from "react-paginate";
 import styles from "./PaginationOrder.module.scss";
 import UpdateOrder from "../UpdateOrder";
 import DeleteOrder from "../DeleteOrder";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Icon } from "rsuite";
+import { getIdProduct, getIdUser } from "../AddOrder";
+import { getAllProduct, getAllUser, getOneUser } from "../../../Api/ApiOrder";
 
 const cx = classNames.bind(styles);
 
 function PaginationOrder(props) {
   const data = props.data;
-  const [urlImage, setUrlImage] = useState();
+  const [dataUser, setDataUser] = useState();
+  const [user, setUser] = useState();
+  const [dataProduct, setDataProduct] = useState();
+  const [product, setProduct] = useState();
   const [showImage, setShowImage] = useState(false);
   const [showInformation, setShowInformation] = useState(false);
   const [idShowInformation, setIdShowInformation] = useState(null);
@@ -32,25 +37,55 @@ function PaginationOrder(props) {
     setItemOffset(newOffset);
   };
 
+  useEffect(() => {
+    const fetchApi = async () => {
+      const userList = await getAllUser();
+      setDataUser(userList.users);
+    };
+    fetchApi();
+  }, []);
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      const productList = await getAllProduct();
+      setDataProduct(productList.products);
+    };
+    fetchApi();
+  }, []);
+
+  const handleCheckValueUser = (value) => {
+    var res = getIdUser(dataUser, value);
+    setUser(res);
+  };
+
+  const handleCheckValueProduct = (value) => {
+    var res = getIdProduct(dataProduct, value);
+    setProduct(res);
+  };
+
   const handleShowInformation = (e) => {
     setIdShowInformation(e.target.id);
     setShowInformation(!showInformation);
+    handleCheckValueUser(e.target.id);
+    handleCheckValueProduct(
+      e.target.parentElement.parentElement.getElementsByTagName("td")[5]
+        .innerText
+    );
   };
- 
 
   const handleShowImage = (e) => {
-    setUrlImage(e.target.src);
     setShowImage(true);
   };
 
   const handleClose = () => {
     setShowImage(false);
   };
+
   return (
     <div className={cx("paghination")}>
       {showImage === true ? (
         <div className={cx("show_image")}>
-          <img src={urlImage} alt="" onClick={handleClose} />
+          <img src={user.image} alt="" onClick={handleClose} />
         </div>
       ) : (
         ""
@@ -88,25 +123,25 @@ function PaginationOrder(props) {
                     <td>
                       <Icon
                         style={{ cursor: "pointer" }}
-                        id={item.id}
+                        id={item.userName}
                         onClick={handleShowInformation}
                         icon={
                           showInformation === true &&
-                          idShowInformation == item.id
-                          ? "minus-square-o" 
-                          : "plus-square-o"
+                          idShowInformation == item.userName
+                            ? "minus-square-o"
+                            : "plus-square-o"
                         }
-                        />
+                      />
                     </td>
                     <td className={cx("text_color")}>{item.id}</td>
-                    <td>{item.userName}</td>
-                    <td className={cx("text_color")}>{item.phone}</td>
+                    <td className={cx("text_color")}>{item.userName}</td>
+                    <td>{item.phone}</td>
                     <td className={cx("text_color")}>{item.addressOrder}</td>
-                    <td className={cx("text_color")}>{item.productName}</td>
+                    <td>{item.productName}</td>
                     <td className={cx("text_color")}>{item.amount}</td>
-                    <td className={cx("text_color")}>{item.unitPrice}</td>
+                    <td>{item.unitPrice}</td>
                     <td className={cx("text_color")}>{item.total}</td>
-                    <td className={cx("text_color")}>
+                    <td>
                       <div className={cx("table_option")}>
                         <UpdateOrder
                           updateUser={props.handleUpdate}
@@ -120,11 +155,12 @@ function PaginationOrder(props) {
                     </td>
                   </tr>
 
-                  {showInformation === true && idShowInformation == item.id ? (
+                  {showInformation === true &&
+                  idShowInformation == item.userName ? (
                     <div className={cx("user_information")}>
-                      {item.image !== undefined ? (
+                      {user.image !== undefined ? (
                         <img
-                          src={item.image}
+                          src={user.image}
                           alt="avata"
                           className={cx("avata_user")}
                           onClick={handleShowImage}
@@ -132,9 +168,39 @@ function PaginationOrder(props) {
                       ) : (
                         <img src="" alt="avata" />
                       )}
-                      <div>
-                        <p>Số điện thoại: {item.phone}</p>
-                        <p>Tên sản phẩm: {item.productName}</p>
+                      <div style={{ display: "flex" }}>
+                        <div className={cx("group_information")}>
+                          <p
+                            style={{
+                              marginBottom: 20,
+                              color: "#00008B",
+                              fontWeight: 600,
+                            }}
+                          >
+                            Thông tin khách hàng:{" "}
+                          </p>
+                          <p style={{ color: "#00008B", fontWeight: 600 }}>
+                            Thông tin sản phẩm:{" "}
+                          </p>
+                        </div>
+                        <div className={cx("group_information")}>
+                          <p>
+                            Tên đầy đủ: {user.firstName + " " + user.lastName}
+                          </p>
+                          <p>Tên sản phẩm: {product.title}</p>
+                        </div>
+                        <div className={cx("group_information")}>
+                          <p>Tuổi: {user.age}</p>
+                          <p>Mô tả: {product.description}</p>
+                        </div>
+                        <div className={cx("group_information")}>
+                          <p>Ngày sinh: {user.birthDate}</p>
+                          <p>Thể loại: {product.category}</p>
+                        </div>
+                        <div className={cx("group_information")}>
+                          <p>Email: {user.email}</p>
+                          <p>Thương hiệu: {product.brand}</p>
+                        </div>
                       </div>
                     </div>
                   ) : (
@@ -149,25 +215,25 @@ function PaginationOrder(props) {
                     <td>
                       <Icon
                         style={{ cursor: "pointer" }}
-                        id={item.id}
+                        id={item.userName}
                         onClick={handleShowInformation}
                         icon={
                           showInformation === true &&
-                          idShowInformation == item.id
+                          idShowInformation == item.userName
                             ? "minus-square-o"
                             : "plus-square-o"
                         }
                       />
                     </td>
                     <td className={cx("text_color")}>{item.id}</td>
-                    <td>{item.userName}</td>
-                    <td className={cx("text_color")}>{item.phone}</td>
+                    <td className={cx("text_color")}>{item.userName}</td>
+                    <td>{item.phone}</td>
                     <td className={cx("text_color")}>{item.addressOrder}</td>
-                    <td className={cx("text_color")}>{item.productName}</td>
+                    <td>{item.productName}</td>
                     <td className={cx("text_color")}>{item.amount}</td>
-                    <td className={cx("text_color")}>{item.unitPrice}</td>
+                    <td>{item.unitPrice}</td>
                     <td className={cx("text_color")}>{item.total}</td>
-                    <td className={cx("text_color")}>
+                    <td>
                       <div className={cx("table_option")}>
                         <UpdateOrder
                           updateUser={props.handleUpdate}
@@ -181,11 +247,12 @@ function PaginationOrder(props) {
                     </td>
                   </tr>
 
-                  {showInformation === true && idShowInformation == item.id ? (
+                  {showInformation === true &&
+                  idShowInformation == item.userName ? (
                     <div className={cx("user_information")}>
-                      {item.image !== undefined ? (
+                      {user.image !== undefined ? (
                         <img
-                          src={item.image}
+                          src={user.image}
                           alt="avata"
                           className={cx("avata_user")}
                           onClick={handleShowImage}
@@ -193,9 +260,39 @@ function PaginationOrder(props) {
                       ) : (
                         <img src="" alt="avata" />
                       )}
-                      <div>
-                        <p>Số điện thoại: {item.phone}</p>
-                        <p>Ngày sinh: {item.date}</p>
+                      <div style={{ display: "flex" }}>
+                        <div className={cx("group_information")}>
+                          <p
+                            style={{
+                              marginBottom: 20,
+                              color: "#00008B",
+                              fontWeight: 600,
+                            }}
+                          >
+                            Thông tin khách hàng:{" "}
+                          </p>
+                          <p style={{ color: "#00008B", fontWeight: 600 }}>
+                            Thông tin sản phẩm:{" "}
+                          </p>
+                        </div>
+                        <div className={cx("group_information")}>
+                          <p>
+                            Tên đầy đủ: {user.firstName + " " + user.lastName}
+                          </p>
+                          <p>Tên sản phẩm: {product.title}</p>
+                        </div>
+                        <div className={cx("group_information")}>
+                          <p>Tuổi: {user.age}</p>
+                          <p>Mô tả: {product.description}</p>
+                        </div>
+                        <div className={cx("group_information")}>
+                          <p>Ngày sinh: {user.birthDate}</p>
+                          <p>Thể loại: {product.category}</p>
+                        </div>
+                        <div className={cx("group_information")}>
+                          <p>Email: {user.email}</p>
+                          <p>Thương hiệu: {product.brand}</p>
+                        </div>
                       </div>
                     </div>
                   ) : (

@@ -1,3 +1,37 @@
 .fillter_wrapper {
-    padding: 0 16px;
+  padding: 0 16px;
+}
+
+.fillter_wrapper {
+  padding: 0 16px;
+}
+
+.modal_input {
+  .input_wrapper {
+    margin: 0;
+    div {
+      margin-bottom: 10px;
+      div {
+        div {
+          margin: 0;
+          width: 300px;
+        }
+      }
+    }
   }
+
+  div {
+    .input_lable_select {
+      margin: 9px 10px 0 0;
+      width: 101px;
+    }
+  }
+
+  .form_footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 295px;
+  }
+}
+
+

@@ -7,31 +7,31 @@ import {
   ControlLabel,
   Form as RSForm,
   FormGroup,
-  Modal,
+  Modal
 } from "rsuite";
 import {
+  createOrder,
   getAllProduct,
   getAllUser,
   getOneProduct,
-  getOneUser,
+  getOneUser
 } from "../../../Api/ApiOrder";
 import {
   InputCustomField,
   InputPickerCustomField,
-  NumberCustomField,
+  NumberCustomField
 } from "../../../FinalFormComponents";
-import { handleCheckNumber } from "../../User/AddUser";
 import styles from "./AddOrder.module.scss";
 const cx = classNames.bind(styles);
 
-const getIdUser = (listUser, valueAddress) => {
+export const getIdUser = (listUser, valueAddress) => {
   if (valueAddress)
     return listUser.find((item) => item.lastName === valueAddress);
   else {
   }
 };
 
-const getIdProduct = (listProduct, unitPrice) => {
+export const getIdProduct = (listProduct, unitPrice) => {
   if (unitPrice) return listProduct.find((item) => item.title === unitPrice);
   else {
   }
@@ -40,7 +40,7 @@ const getIdProduct = (listProduct, unitPrice) => {
 // valid
 const required = (value) => (value ? undefined : "Required");
 
-function AddOrder() {
+function AddOrder(props) {
   const [arrUser, setArrUser] = useState([]);
   const [idNameUser, setIdNameUser] = useState();
   const [valueAddress, setValueAddress] = useState("");
@@ -48,9 +48,10 @@ function AddOrder() {
 
   const [arrProduct, setArrProduct] = useState([]);
   const [idNameProduct, setIdNameProduct] = useState([]);
-  const [unitPrice, setUnitPrice] = useState();
-
+  const [unitPrice, setUnitPrice] = useState(0);
   const [total, setTotal] = useState(0);
+  const [amount, setAmount] = useState(0);
+
   //user
   // kiểm tra value của user
   const handleCheckValueUser = (value) => {
@@ -62,6 +63,7 @@ function AddOrder() {
       setPhone("");
     }
   };
+
 
   // lấy danh sách các user
   useEffect(() => {
@@ -97,7 +99,8 @@ function AddOrder() {
       var res = getIdProduct(arrProduct, value);
       setIdNameProduct(parseInt(res.id));
     } else {
-      setUnitPrice("");
+      setUnitPrice(0);
+      setTotal(0);
     }
   };
 
@@ -111,12 +114,14 @@ function AddOrder() {
   }, []);
 
   // lấy info một product
-
   useEffect(() => {
     if (idNameProduct !== undefined && Number.isNaN(idNameProduct) !== true) {
       const fetchApi = async () => {
         const product = await getOneProduct(idNameProduct);
         setUnitPrice(product.price);
+        if (amount !== undefined) {
+          setTotal(product.price * amount);
+        }
       };
       fetchApi();
     } else {
@@ -125,21 +130,40 @@ function AddOrder() {
     }
   }, [idNameProduct]);
 
+  const handleTotal = (amount) => {
+    setAmount(amount);
+  };
+
   //tính toán
-  const handleCalculate = (value) => {
-    console.log(unitPrice);
-    console.log("Ua alo");
+  const handleCalculate = (value, amount) => {
+    const total = value * amount;
+    setTotal(total);
+  };
+
+  const handleCustomNumber = (value) => {
+    let newValue = value * 1000;
+    newValue = newValue.toLocaleString("it-IT", {
+      style: "currency",
+      currency: "VND",
+    });
+    return newValue;
   };
 
   const onSubmit = async (values) => {
+    // console.log(values.phone)
+    const total = handleCustomNumber(values.total);
+    const unitPrice = handleCustomNumber(values.unitPrice);
     const newValue = {
       ...values,
+      total,
+      unitPrice,
     };
-    console.log(values);
+    console.log(newValue);
     // gọi Api post user và truyền đi data
-    // await createUser(newValue);
-    // props.onGetdata(newValue); // render lại table
-    // handleClose();
+    await createOrder(newValue);
+    props.onGetdata(newValue); // render lại table
+    handleClose();
+    alert("Thêm thành công")
   };
 
   // bật tắt module
@@ -152,8 +176,11 @@ function AddOrder() {
     setValueAddress("");
     setPhone("");
     setIdNameUser("");
-    setUnitPrice("");
+    setUnitPrice(0);
+    setTotal(0);
+    setUnitPrice(0);
   };
+
   return (
     <div className={cx("modal-container")}>
       <ButtonToolbar>
@@ -172,7 +199,6 @@ function AddOrder() {
             initialValues={{}}
             render={({ handleSubmit, values, submitting, pristine, form }) => (
               <>
-                <pre>{JSON.stringify(values, 0, 2)}</pre>
                 <RSForm
                   layout="inline"
                   className={cx("modal_input")}
@@ -214,7 +240,7 @@ function AddOrder() {
                         <Field
                           className={cx("input_content")}
                           name="phone"
-                          component={NumberCustomField}
+                          component={InputCustomField}
                           placeholder=" "
                           initialValue={phone}
                           // validate={handleCheckNumber}
@@ -262,6 +288,7 @@ function AddOrder() {
                           }}
                           onChange={(value) => {
                             handleCheckValueProduct(value);
+                            handleTotal(values.amount);
                           }}
                         />
                         <ControlLabel className={cx("input_lable_select")}>
@@ -276,12 +303,14 @@ function AddOrder() {
                     <FormGroup>
                       <div>
                         <Field
-                          className={cx("input_date")}
+                          className={cx("input_content")}
                           name="amount"
                           component={NumberCustomField}
                           placeholder=" "
                           // validate={required}
-                          onetap={true}
+                          onChange={(value) => {
+                            handleCalculate(values.unitPrice, value);
+                          }}
                         />
                         <ControlLabel className={cx("input_lable_select")}>
                           Số lượng
@@ -295,7 +324,10 @@ function AddOrder() {
                           component={NumberCustomField}
                           placeholder=" "
                           initialValue={unitPrice}
-                          // handleCalculate={handleCalculate}
+                          onChange={(value) => {
+                            // handleGetValueUnitPrice(value, values.amount);
+                            handleCalculate(value, values.amount);
+                          }}
                         />
                         <ControlLabel className={cx("input_lable_select")}>
                           Đơn giá
@@ -310,9 +342,11 @@ function AddOrder() {
                     <FormGroup>
                       <div>
                         <Field
-                          className={cx("input_sex")}
+                          className={cx("input_content")}
                           name="total"
-                          component={InputCustomField}
+                          component={NumberCustomField}
+                          disabled
+                          initialValue={total !== 0 ? total : 0}
                         />
                         <ControlLabel className={cx("input_lable_select")}>
                           Thành tiền
