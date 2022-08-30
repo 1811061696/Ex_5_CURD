@@ -51,10 +51,10 @@ export const handleCheckNumber = (value) => {
       if (!(value.length > 9 && value.length < 12)) {
         return "Vui lòng kiểm tra lại số điện thoại";
       } else {
-        return undefined;
+        return null;
       }
     } else {
-      return undefined;
+      return null;
     }
   } else {
     return "Required";

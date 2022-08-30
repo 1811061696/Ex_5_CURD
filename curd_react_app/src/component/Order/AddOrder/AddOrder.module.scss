@@ -152,3 +152,35 @@
     top: 16px;
   }
 }
+
+div {
+  .list_order {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 4px;
+    align-items: center;
+    justify-content: center;
+
+    h4 {
+      width: 100%;
+      padding-left: 8px;
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 150%;
+      color: var(--gray900);
+    }
+  }
+}
+
+.list_order_icon {
+  cursor: pointer;
+  font-size: 14px;
+  color: red;
+  position: absolute;
+  top: 10px;
+  left: 60px;
+}
