@@ -172,33 +172,33 @@ function PaginationOrder(props) {
                         <div className={cx("group_information")}>
                           <p
                             style={{
-                              marginBottom: 20,
-                              color: "#00008B",
+                              color: "red",
                               fontWeight: 600,
+                              height: 50
                             }}
                           >
                             Thông tin khách hàng:{" "}
                           </p>
-                          <p style={{ color: "#00008B", fontWeight: 600 }}>
+                          <p style={{ color: "red", fontWeight: 600 }}>
                             Thông tin sản phẩm:{" "}
                           </p>
                         </div>
                         <div className={cx("group_information")}>
-                          <p>
+                          <p className={cx("info_title")}>
                             Tên đầy đủ: {user.firstName + " " + user.lastName}
                           </p>
                           <p>Tên sản phẩm: {product.title}</p>
                         </div>
                         <div className={cx("group_information")}>
-                          <p>Tuổi: {user.age}</p>
+                          <p className={cx("info_title")}>Tuổi: {user.age}</p>
                           <p>Mô tả: {product.description}</p>
                         </div>
                         <div className={cx("group_information")}>
-                          <p>Ngày sinh: {user.birthDate}</p>
+                          <p className={cx("info_title")}>Ngày sinh: {user.birthDate}</p>
                           <p>Thể loại: {product.category}</p>
                         </div>
                         <div className={cx("group_information")}>
-                          <p>Email: {user.email}</p>
+                          <p className={cx("info_title")}>Email: {user.email}</p>
                           <p>Thương hiệu: {product.brand}</p>
                         </div>
                       </div>
@@ -264,33 +264,33 @@ function PaginationOrder(props) {
                         <div className={cx("group_information")}>
                           <p
                             style={{
-                              marginBottom: 20,
-                              color: "#00008B",
+                              color: "red",
                               fontWeight: 600,
+                              height: 50
                             }}
                           >
                             Thông tin khách hàng:{" "}
                           </p>
-                          <p style={{ color: "#00008B", fontWeight: 600 }}>
+                          <p style={{ color: "red", fontWeight: 600 }}>
                             Thông tin sản phẩm:{" "}
                           </p>
                         </div>
                         <div className={cx("group_information")}>
-                          <p>
+                          <p className={cx("info_title")}>
                             Tên đầy đủ: {user.firstName + " " + user.lastName}
                           </p>
                           <p>Tên sản phẩm: {product.title}</p>
                         </div>
                         <div className={cx("group_information")}>
-                          <p>Tuổi: {user.age}</p>
+                          <p className={cx("info_title")}>Tuổi: {user.age}</p>
                           <p>Mô tả: {product.description}</p>
                         </div>
                         <div className={cx("group_information")}>
-                          <p>Ngày sinh: {user.birthDate}</p>
+                          <p className={cx("info_title")}>Ngày sinh: {user.birthDate}</p>
                           <p>Thể loại: {product.category}</p>
                         </div>
                         <div className={cx("group_information")}>
-                          <p>Email: {user.email}</p>
+                          <p className={cx("info_title")}>Email: {user.email}</p>
                           <p>Thương hiệu: {product.brand}</p>
                         </div>
                       </div>

@@ -7,19 +7,19 @@ import {
   ControlLabel,
   Form as RSForm,
   FormGroup,
-  Modal
+  Modal,
 } from "rsuite";
 import {
   createOrder,
   getAllProduct,
   getAllUser,
   getOneProduct,
-  getOneUser
+  getOneUser,
 } from "../../../Api/ApiOrder";
 import {
   InputCustomField,
   InputPickerCustomField,
-  NumberCustomField
+  NumberCustomField,
 } from "../../../FinalFormComponents";
 import styles from "./AddOrder.module.scss";
 const cx = classNames.bind(styles);
@@ -63,7 +63,6 @@ function AddOrder(props) {
       setPhone("");
     }
   };
-
 
   // lấy danh sách các user
   useEffect(() => {
@@ -119,14 +118,14 @@ function AddOrder(props) {
       const fetchApi = async () => {
         const product = await getOneProduct(idNameProduct);
         setUnitPrice(product.price);
-        if (amount !== undefined) {
+        if (amount !== undefined && product.price !== undefined) {
           setTotal(product.price * amount);
         }
       };
       fetchApi();
     } else {
       console.log("Chưa có id product");
-      setUnitPrice("");
+      setUnitPrice(0);
     }
   }, [idNameProduct]);
 
@@ -136,8 +135,10 @@ function AddOrder(props) {
 
   //tính toán
   const handleCalculate = (value, amount) => {
-    const total = value * amount;
-    setTotal(total);
+    if (value && amount) {
+      const total = value * amount;
+      setTotal(total);
+    }
   };
 
   const handleCustomNumber = (value) => {
@@ -163,7 +164,7 @@ function AddOrder(props) {
     await createOrder(newValue);
     props.onGetdata(newValue); // render lại table
     handleClose();
-    alert("Thêm thành công")
+    alert("Thêm thành công");
   };
 
   // bật tắt module
@@ -178,7 +179,6 @@ function AddOrder(props) {
     setIdNameUser("");
     setUnitPrice(0);
     setTotal(0);
-    setUnitPrice(0);
   };
 
   return (
@@ -269,6 +269,17 @@ function AddOrder(props) {
                         </ControlLabel>
                       </div>
                     </FormGroup>
+
+
+
+
+
+                          
+
+
+
+
+
 
                     <FormGroup>
                       <div>
