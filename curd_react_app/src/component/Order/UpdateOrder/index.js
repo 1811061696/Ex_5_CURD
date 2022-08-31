@@ -227,7 +227,6 @@ function UpdateOrder(props) {
               },
             }) => (
               <>
-                <pre>{JSON.stringify(values, 0, 2)}</pre>
                 <RSForm
                   layout="inline"
                   className={cx("modal_input")}
