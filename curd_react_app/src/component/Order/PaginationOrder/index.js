@@ -6,7 +6,7 @@ import UpdateOrder from "../UpdateOrder";
 import DeleteOrder from "../DeleteOrder";
 import { useEffect, useRef, useState } from "react";
 import { Icon } from "rsuite";
-import { getIdProduct, getIdUser } from "../AddOrder";
+import { getIdProduct, getIdUser, handleCustomNumber } from "../AddOrder";
 import { getAllProduct, getAllUser, getOneUser } from "../../../Api/ApiOrder";
 
 const cx = classNames.bind(styles);
@@ -66,11 +66,19 @@ function PaginationOrder(props) {
   const handleShowInformation = (e) => {
     setIdShowInformation(e.target.id);
     setShowInformation(!showInformation);
-    handleCheckValueUser(e.target.id);
-    handleCheckValueProduct(
-      e.target.parentElement.parentElement.getElementsByTagName("td")[5]
+    handleCheckValueUser(
+      e.target.parentElement.parentElement.getElementsByTagName("td")[2]
         .innerText
     );
+
+    console.log(
+      e.target.parentElement.parentElement.getElementsByTagName("td")[5]
+    );
+
+    // handleCheckValueProduct(
+    //   e.target.parentElement.parentElement.getElementsByTagName("td")[5]
+    //     .innerText
+    // );
   };
 
   const handleShowImage = (e) => {
@@ -104,15 +112,16 @@ function PaginationOrder(props) {
             <td>Số lượng</td>
             <td>Đơn giá</td>
             <td>Thành tiền</td>
+            <td>Tổng tiền</td>
             <td>Chức năng</td>
           </tr>
         </thead>
         <tbody className={cx("list__table")}>
           {currentItems.reverse().map((item, index) => {
-            if (item.name === "Không có đơn hàng phù hợp!!!") {
+            if (item.userName === "Không có đơn hàng phù hợp!!!") {
               return (
                 <p style={{ color: "red", marginTop: 8 }}>
-                  Không có khách hàng phù hợp
+                  Không có đơn hàng phù hợp
                 </p>
               );
             }
@@ -123,11 +132,11 @@ function PaginationOrder(props) {
                     <td>
                       <Icon
                         style={{ cursor: "pointer" }}
-                        id={item.userName}
+                        id={item.id}
                         onClick={handleShowInformation}
                         icon={
                           showInformation === true &&
-                          idShowInformation == item.userName
+                          idShowInformation == item.id
                             ? "minus-square-o"
                             : "plus-square-o"
                         }
@@ -137,10 +146,75 @@ function PaginationOrder(props) {
                     <td className={cx("text_color")}>{item.userName}</td>
                     <td>{item.phone}</td>
                     <td className={cx("text_color")}>{item.addressOrder}</td>
-                    <td>{item.productName}</td>
-                    <td className={cx("text_color")}>{item.amount}</td>
-                    <td>{item.unitPrice}</td>
-                    <td className={cx("text_color")}>{item.total}</td>
+                    {item.orderItem ? (
+                      <td>
+                        {item.orderItem.map((item) => {
+                          return (
+                            <div>
+                              <p style={{ marginBottom: 10, minHeight: 40 }}>
+                                {item.productName}
+                              </p>
+                            </div>
+                          );
+                        })}
+                      </td>
+                    ) : (
+                      <td>{item.productName}</td>
+                    )}
+
+                    {item.orderItem ? (
+                      <td>
+                        {item.orderItem.map((item) => {
+                          return (
+                            <p
+                              style={{ marginBottom: 10, minHeight: 40 }}
+                              className={cx("text_color")}
+                            >
+                              {item.amount}
+                            </p>
+                          );
+                        })}
+                      </td>
+                    ) : (
+                      <td className={cx("text_color")}>{item.amount}</td>
+                    )}
+
+                    {item.orderItem ? (
+                      <td>
+                        {item.orderItem.map((item) => {
+                          return (
+                            <div>
+                              <p style={{ marginBottom: 10, minHeight: 40 }}>
+                                {handleCustomNumber(item.unitPrice)}
+                              </p>
+                            </div>
+                          );
+                        })}
+                      </td>
+                    ) : (
+                      <td>{handleCustomNumber(item.unitPrice)}</td>
+                    )}
+
+                    {item.orderItem ? (
+                      <td>
+                        {item.orderItem.map((item) => {
+                          return (
+                            <p
+                              style={{ marginBottom: 10, minHeight: 40 }}
+                              className={cx("text_color")}
+                            >
+                              {handleCustomNumber(item.total)}
+                            </p>
+                          );
+                        })}
+                      </td>
+                    ) : (
+                      <td className={cx("text_color")}>
+                        {handleCustomNumber(item.total)}
+                      </td>
+                    )}
+                    {item.total ? <td>{item.total}</td> : <td></td>}
+
                     <td>
                       <div className={cx("table_option")}>
                         <UpdateOrder
@@ -155,8 +229,7 @@ function PaginationOrder(props) {
                     </td>
                   </tr>
 
-                  {showInformation === true &&
-                  idShowInformation == item.userName ? (
+                  {showInformation === true && idShowInformation == item.id ? (
                     <div className={cx("user_information")}>
                       {user.image !== undefined ? (
                         <img
@@ -174,32 +247,34 @@ function PaginationOrder(props) {
                             style={{
                               color: "red",
                               fontWeight: 600,
-                              height: 50
+                              height: 50,
+                              marginTop: 30,
                             }}
                           >
                             Thông tin khách hàng:{" "}
-                          </p>
-                          <p style={{ color: "red", fontWeight: 600 }}>
-                            Thông tin sản phẩm:{" "}
                           </p>
                         </div>
                         <div className={cx("group_information")}>
                           <p className={cx("info_title")}>
                             Tên đầy đủ: {user.firstName + " " + user.lastName}
                           </p>
-                          <p>Tên sản phẩm: {product.title}</p>
+                          <p>Quốc gia: {user.maidenName}</p>
                         </div>
                         <div className={cx("group_information")}>
                           <p className={cx("info_title")}>Tuổi: {user.age}</p>
-                          <p>Mô tả: {product.description}</p>
+                          <p>Giới tính: {user.gender}</p>
                         </div>
                         <div className={cx("group_information")}>
-                          <p className={cx("info_title")}>Ngày sinh: {user.birthDate}</p>
-                          <p>Thể loại: {product.category}</p>
+                          <p className={cx("info_title")}>
+                            Ngày sinh: {user.birthDate}
+                          </p>
+                          <p>Học tại: {user.university}</p>
                         </div>
                         <div className={cx("group_information")}>
-                          <p className={cx("info_title")}>Email: {user.email}</p>
-                          <p>Thương hiệu: {product.brand}</p>
+                          <p className={cx("info_title")}>
+                            Email: {user.email}
+                          </p>
+                          <p>Tài khoản: {user.bank.cardNumber}</p>
                         </div>
                       </div>
                     </div>
@@ -215,11 +290,11 @@ function PaginationOrder(props) {
                     <td>
                       <Icon
                         style={{ cursor: "pointer" }}
-                        id={item.userName}
+                        id={item.id}
                         onClick={handleShowInformation}
                         icon={
                           showInformation === true &&
-                          idShowInformation == item.userName
+                          idShowInformation == item.id
                             ? "minus-square-o"
                             : "plus-square-o"
                         }
@@ -229,10 +304,75 @@ function PaginationOrder(props) {
                     <td className={cx("text_color")}>{item.userName}</td>
                     <td>{item.phone}</td>
                     <td className={cx("text_color")}>{item.addressOrder}</td>
-                    <td>{item.productName}</td>
-                    <td className={cx("text_color")}>{item.amount}</td>
-                    <td>{item.unitPrice}</td>
-                    <td className={cx("text_color")}>{item.total}</td>
+                    {item.orderItem ? (
+                      <td>
+                        {item.orderItem.map((item) => {
+                          return (
+                            <div>
+                              <p style={{ marginBottom: 10, minHeight: 40 }}>
+                                {item.productName}
+                              </p>
+                            </div>
+                          );
+                        })}
+                      </td>
+                    ) : (
+                      <td>{item.productName}</td>
+                    )}
+
+                    {item.orderItem ? (
+                      <td>
+                        {item.orderItem.map((item) => {
+                          return (
+                            <p
+                              style={{ marginBottom: 10, minHeight: 40 }}
+                              className={cx("text_color")}
+                            >
+                              {item.amount}
+                            </p>
+                          );
+                        })}
+                      </td>
+                    ) : (
+                      <td className={cx("text_color")}>{item.amount}</td>
+                    )}
+
+                    {item.orderItem ? (
+                      <td>
+                        {item.orderItem.map((item) => {
+                          return (
+                            <div>
+                              <p style={{ marginBottom: 10, minHeight: 40 }}>
+                                {handleCustomNumber(item.unitPrice)}
+                              </p>
+                            </div>
+                          );
+                        })}
+                      </td>
+                    ) : (
+                      <td>{handleCustomNumber(item.unitPrice)}</td>
+                    )}
+
+                    {item.orderItem ? (
+                      <td>
+                        {item.orderItem.map((item) => {
+                          return (
+                            <p
+                              style={{ marginBottom: 10, minHeight: 40 }}
+                              className={cx("text_color")}
+                            >
+                              {handleCustomNumber(item.total)}
+                            </p>
+                          );
+                        })}
+                      </td>
+                    ) : (
+                      <td className={cx("text_color")}>
+                        {handleCustomNumber(item.total)}
+                      </td>
+                    )}
+                    {item.total ? <td>{item.total}</td> : <td></td>}
+
                     <td>
                       <div className={cx("table_option")}>
                         <UpdateOrder
@@ -247,8 +387,7 @@ function PaginationOrder(props) {
                     </td>
                   </tr>
 
-                  {showInformation === true &&
-                  idShowInformation == item.userName ? (
+                  {showInformation === true && idShowInformation == item.id ? (
                     <div className={cx("user_information")}>
                       {user.image !== undefined ? (
                         <img
@@ -266,32 +405,34 @@ function PaginationOrder(props) {
                             style={{
                               color: "red",
                               fontWeight: 600,
-                              height: 50
+                              height: 50,
+                              marginTop: 30,
                             }}
                           >
                             Thông tin khách hàng:{" "}
-                          </p>
-                          <p style={{ color: "red", fontWeight: 600 }}>
-                            Thông tin sản phẩm:{" "}
                           </p>
                         </div>
                         <div className={cx("group_information")}>
                           <p className={cx("info_title")}>
                             Tên đầy đủ: {user.firstName + " " + user.lastName}
                           </p>
-                          <p>Tên sản phẩm: {product.title}</p>
+                          <p>Quốc gia: {user.maidenName}</p>
                         </div>
                         <div className={cx("group_information")}>
                           <p className={cx("info_title")}>Tuổi: {user.age}</p>
-                          <p>Mô tả: {product.description}</p>
+                          <p>Giới tính: {user.gender}</p>
                         </div>
                         <div className={cx("group_information")}>
-                          <p className={cx("info_title")}>Ngày sinh: {user.birthDate}</p>
-                          <p>Thể loại: {product.category}</p>
+                          <p className={cx("info_title")}>
+                            Ngày sinh: {user.birthDate}
+                          </p>
+                          <p>Học tại: {user.university}</p>
                         </div>
                         <div className={cx("group_information")}>
-                          <p className={cx("info_title")}>Email: {user.email}</p>
-                          <p>Thương hiệu: {product.brand}</p>
+                          <p className={cx("info_title")}>
+                            Email: {user.email}
+                          </p>
+                          <p>Tài khoản: {user.bank.cardNumber}</p>
                         </div>
                       </div>
                     </div>

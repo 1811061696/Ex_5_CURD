@@ -32,7 +32,7 @@ function FillterOrder(props) {
         if (
           item.userName === newValue.userName &&
           item.id == newValue.id &&
-          item.productName === newValue.productName
+          item.phone === newValue.phone
         ) {
           newArrUser.push(item);
         }
@@ -40,7 +40,7 @@ function FillterOrder(props) {
         if (
           item.id == newValue.id ||
           item.userName === newValue.userName ||
-          item.productName === newValue.productName
+          item.phone === newValue.phone
         ) {
           // lọc đơn
           newArrUser.push(item);
@@ -120,11 +120,11 @@ function FillterOrder(props) {
                     <FormGroup>
                       <div>
                         <ControlLabel className={cx("input_lable_select")}>
-                          Tên sản phẩm
+                          Số điện thoại
                         </ControlLabel>
                         <Field
                           className={cx("input_content")}
-                          name="productName"
+                          name="phone"
                           component={InputCustomField}
                           placeholder=" "
                         />

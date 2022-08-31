@@ -50,25 +50,24 @@ function OrderContainer() {
   }
 
   function getDataFillterOrder(data) {
-    console.log(data);
     if (data) return setArrayOrder(data);
   }
 
   const getValueSearch = (value) => {
-    console.log(value);
+    // console.log(value);
     const valueSearch = value;
     const arraySearch = orderSearch.filter((value) => {
       return (
-        value.productName.toUpperCase().includes(valueSearch.toUpperCase()) ||
         value.phone.toUpperCase().includes(valueSearch.toUpperCase()) ||
+        value.addressOrder.toUpperCase().includes(valueSearch.toUpperCase()) ||
         value.userName.toUpperCase().includes(valueSearch.toUpperCase())
       );
     });
-    console.log(arraySearch);
+    // console.log(arraySearch);
     if (arraySearch.length !== 0) {
       setArrayOrder(arraySearch);
     } else {
-      setArrayOrder([{ name: "Không có khách hàng phù hợp!!!" }]);
+      setArrayOrder([{ userName: "Không có đơn hàng phù hợp!!!" }]);
     }
   };
   return (

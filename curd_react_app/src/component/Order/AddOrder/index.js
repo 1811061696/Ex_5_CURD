@@ -40,6 +40,15 @@ export const getIdProduct = (listProduct, unitPrice) => {
   }
 };
 
+export const handleCustomNumber = (value) => {
+  let newValue = value * 1000;
+  newValue = newValue.toLocaleString("it-IT", {
+    style: "currency",
+    currency: "VND",
+  });
+  return newValue;
+};
+
 // valid
 const required = (value) => (value ? undefined : "Required");
 
@@ -132,20 +141,8 @@ function AddOrder(props) {
     }
   }, [idNameProduct]);
 
-  var allTotal = 0
-  const handleTotal = (values) => {
-    allTotal += values
-  
-    // values.map((item) => {
-    //   if (item && item.total !== undefined) {
-    //     allTotal += item.total;
-    //     console.log(allTotal);
-    //     setTotal(allTotal);
-    //   }
-    // });
-
-    setTotal(values);
-  };
+  // const [index, setIndex] = (0)
+  const handleTotal = (values) => {};
 
   //tính toán
   const handleCalculate = (value, amount) => {
@@ -156,23 +153,18 @@ function AddOrder(props) {
     }
   };
 
-  const handleCustomNumber = (value) => {
-    let newValue = value * 1000;
-    newValue = newValue.toLocaleString("it-IT", {
-      style: "currency",
-      currency: "VND",
-    });
-    return newValue;
-  };
-
   const onSubmit = async (values) => {
-    // console.log(values.phone)
-    const total = handleCustomNumber(values.total);
-    const unitPrice = handleCustomNumber(values.unitPrice);
+
+    let allTotal = 0
+    for(let i= 0; i < values.orderItem.length; i++) {
+      allTotal += values.orderItem[i].total
+    }    
+
+    setTotal(allTotal)
+    const total = handleCustomNumber(allTotal);
     const newValue = {
       ...values,
-      total,
-      unitPrice,
+      total
     };
     console.log(newValue);
     // gọi Api post user và truyền đi data
@@ -224,7 +216,6 @@ function AddOrder(props) {
               },
             }) => (
               <>
-                <pre>{JSON.stringify(values, 0, 2)}</pre>
                 <RSForm
                   layout="inline"
                   className={cx("modal_input")}
@@ -299,6 +290,7 @@ function AddOrder(props) {
                     <FormGroup></FormGroup>
                   </div>
 
+
                   <div>
                     <div className={cx("list_order")}>
                       <h4>Danh sách đơn hàng</h4>
@@ -352,11 +344,8 @@ function AddOrder(props) {
                                   labelKey={"title"}
                                   validate={required}
                                   onSelect={(value) => {
+                                    var data = getIdProduct(arrProduct, value);
                                     if (values.orderItem[index]) {
-                                      var data = getIdProduct(
-                                        arrProduct,
-                                        value
-                                      );
                                       if (values.orderItem[index].amount) {
                                         var newTotal =
                                           data.price *
@@ -367,8 +356,11 @@ function AddOrder(props) {
                                         data.price
                                       );
                                       form.change(`${name}.total`, newTotal);
-                                      handleTotal(newTotal);
                                     }
+                                    form.change(
+                                      `${name}.unitPrice`,
+                                      data.price
+                                    );
                                   }}
                                   onChange={(value) => {
                                     // handleCheckValueProduct(value);
@@ -390,11 +382,6 @@ function AddOrder(props) {
                                   component={NumberCustomField}
                                   placeholder=" "
                                   onChange={(value) => {
-                                    // handleCalculate(
-                                    //   values.orderItem[index].unitPrice,
-                                    //   value
-                                    // );
-
                                     if (values.orderItem[index]) {
                                       const total =
                                         values.orderItem[index].unitPrice *
@@ -433,7 +420,7 @@ function AddOrder(props) {
                                       const total =
                                         values.orderItem[index].amount * value;
                                       form.change(`${name}.total`, total);
-                                      handleTotal(values.orderItem);
+                                      handleTotal(values.orderItem, index);
                                     }
                                   }}
                                 />
@@ -514,7 +501,7 @@ function AddOrder(props) {
 
                   {/* =========================================== */}
 
-                  <div>
+                  {/* <div>
                     <FormGroup>
                       <div>
                         <Field
@@ -524,14 +511,14 @@ function AddOrder(props) {
                           disabled
                           initialValue={total !== 0 ? total : 0}
                         />
-                        {/* {console.log(total)} */}
+                        {console.log(total)}
                         <ControlLabel className={cx("input_lable_select")}>
                           Tổng tiền
                         </ControlLabel>
                       </div>
                     </FormGroup>
-                    {/* <FormGroup></FormGroup> */}
-                  </div>
+                    <FormGroup></FormGroup>
+                  </div> */}
 
                   <ButtonToolbar className={cx("form_footer")}>
                     <Button

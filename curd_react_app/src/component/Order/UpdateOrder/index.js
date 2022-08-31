@@ -8,7 +8,7 @@ import {
   Form as RSForm,
   FormGroup,
   Icon,
-  Modal
+  Modal,
 } from "rsuite";
 import {
   getAllProduct,
@@ -16,13 +16,15 @@ import {
   getOneOrder,
   getOneProduct,
   getOneUser,
-  handleUpdateOrder
+  handleUpdateOrder,
 } from "../../../Api/ApiOrder";
 import {
   InputCustomField,
   InputPickerCustomField,
-  NumberCustomField
+  NumberCustomField,
 } from "../../../FinalFormComponents";
+import arrayMutators from "final-form-arrays";
+import { FieldArray } from "react-final-form-arrays";
 import styles from "./UpdateOrder.module.scss";
 const cx = classNames.bind(styles);
 
@@ -158,13 +160,16 @@ function UpdateOrder(props) {
   };
 
   const onSubmit = async (values) => {
-    // console.log(values.phone)
-    const total = handleCustomNumber(values.total);
-    const unitPrice = handleCustomNumber(values.unitPrice);
+    let allTotal = 0;
+    for (let i = 0; i < values.orderItem.length; i++) {
+      allTotal += values.orderItem[i].total;
+    }
+
+    setTotal(allTotal);
+    const total = handleCustomNumber(allTotal);
     const newValue = {
       ...values,
       total,
-      unitPrice,
     };
     console.log(newValue);
     // gọi Api post user và truyền đi data
@@ -202,12 +207,21 @@ function UpdateOrder(props) {
               userName: order.userName,
               addressOrder: valueAddress,
               phone: phone,
-              amount: order.amount,
               productName: order.productName,
               total: order.total,
-              unitPrice: order.unitPrice,
+              orderItem: order.orderItem
             }}
-            render={({ handleSubmit, values, submitting, pristine, form }) => (
+            mutators={{ ...arrayMutators }}
+            render={({
+              handleSubmit,
+              values,
+              submitting,
+              pristine,
+              form,
+              form: {
+                mutators: { push, pop },
+              },
+            }) => (
               <>
                 <pre>{JSON.stringify(values, 0, 2)}</pre>
                 <RSForm
@@ -283,7 +297,7 @@ function UpdateOrder(props) {
                       </div>
                     </FormGroup>
 
-                    <FormGroup>
+                    {/* <FormGroup>
                       <div>
                         <Field
                           className={cx("input_content")}
@@ -308,11 +322,182 @@ function UpdateOrder(props) {
                           Tên sản phẩm
                         </ControlLabel>
                       </div>
-                    </FormGroup>
+                    </FormGroup> */}
                   </div>
 
-                  {/* ========================================= */}
+                  {/* ============================================ */}
+
                   <div>
+                    <div className={cx("list_order")}>
+                      <h4>Danh sách đơn hàng</h4>
+                      <Icon
+                        icon="plus-square"
+                        style={{
+                          margin: "inherit",
+                          fontSize: 18,
+                          cursor: "pointer",
+                        }}
+                        onClick={() => push("orderItem", undefined)}
+                      />
+                      <Icon
+                        icon="minus-square"
+                        style={{
+                          margin: "inherit",
+                          fontSize: 18,
+                          cursor: "pointer",
+                        }}
+                        onClick={() => pop("orderItem")}
+                      />
+                    </div>
+                  </div>
+
+                  <FieldArray name="orderItem">
+                    {({ fields }) =>
+                      fields.map((name, index) => (
+                        <div
+                          key={name}
+                          style={{ display: "block", position: "relative" }}
+                        >
+                          <ControlLabel
+                            style={{
+                              marginLeft: 15,
+                              fontSize: 14,
+                              color: "green",
+                            }}
+                          >
+                            Đơn: {index + 1}
+                          </ControlLabel>
+                          <div>
+                            <FormGroup style={{ margin: 15 }}>
+                              <div>
+                                <Field
+                                  className={cx("input_content")}
+                                  name={`${name}.productName`}
+                                  component={InputPickerCustomField}
+                                  placeholder="Chọn"
+                                  inputValue={arrProduct}
+                                  valueKey="title"
+                                  labelKey={"title"}
+                                  validate={required}
+                                  onSelect={(value) => {
+                                    var data = getIdProduct(arrProduct, value);
+                                    if (values.orderItem[index]) {
+                                      if (values.orderItem[index].amount) {
+                                        var newTotal =
+                                          data.price *
+                                          values.orderItem[index].amount;
+                                      }
+                                      form.change(
+                                        `${name}.unitPrice`,
+                                        data.price
+                                      );
+                                      form.change(`${name}.total`, newTotal);
+                                    }
+                                    form.change(
+                                      `${name}.unitPrice`,
+                                      data.price
+                                    );
+                                  }}
+                                  onChange={(value) => {
+                                    // handleCheckValueProduct(value);
+                                  }}
+                                />
+                                <ControlLabel
+                                  className={cx("input_lable_select")}
+                                >
+                                  Tên sản phẩm
+                                </ControlLabel>
+                              </div>
+                            </FormGroup>
+
+                            <FormGroup style={{ margin: 15 }}>
+                              <div>
+                                <Field
+                                  className={cx("input_content")}
+                                  name={`${name}.amount`}
+                                  component={NumberCustomField}
+                                  placeholder=" "
+                                  onChange={(value) => {
+                                    if (values.orderItem[index]) {
+                                      const total =
+                                        values.orderItem[index].unitPrice *
+                                        value;
+                                      form.change(`${name}.total`, total);
+                                    }
+                                    // handleTotal(values.orderItem);
+                                  }}
+                                />
+                                <ControlLabel
+                                  className={cx("input_lable_select")}
+                                >
+                                  Số lượng
+                                </ControlLabel>
+                              </div>
+                            </FormGroup>
+                          </div>
+
+                          {/* == */}
+
+                          <div>
+                            <FormGroup style={{ margin: 15 }}>
+                              <div>
+                                <Field
+                                  name={`${name}.unitPrice`}
+                                  component={NumberCustomField}
+                                  placeholder=" "
+                                  // initialValue={unitPrice}
+                                  onChange={(value) => {
+                                    handleCalculate(
+                                      value,
+                                      values.orderItem[index].amount
+                                    );
+
+                                    if (values.orderItem[index]) {
+                                      const total =
+                                        values.orderItem[index].amount * value;
+                                      form.change(`${name}.total`, total);
+                                      handleTotal(values.orderItem, index);
+                                    }
+                                  }}
+                                />
+                                <ControlLabel
+                                  className={cx("input_lable_select")}
+                                >
+                                  Đơn giá
+                                </ControlLabel>
+                              </div>
+                            </FormGroup>
+
+                            <FormGroup style={{ margin: 15 }}>
+                              <div>
+                                <Field
+                                  className={cx("input_content")}
+                                  name={`${name}.total`}
+                                  // name="total"
+                                  component={NumberCustomField}
+                                  disabled
+                                  // initialValue={total}
+                                />
+                                <ControlLabel
+                                  className={cx("input_lable_select")}
+                                >
+                                  Thành tiền
+                                </ControlLabel>
+                              </div>
+                            </FormGroup>
+                          </div>
+
+                          <Icon
+                            icon="trash"
+                            onClick={() => fields.remove(index)}
+                            className={cx("list_order_icon")}
+                          />
+                        </div>
+                      ))
+                    }
+                  </FieldArray>
+                  {/* ========================================= */}
+                  {/* <div>
                     <FormGroup>
                       <div>
                         <Field
@@ -347,11 +532,11 @@ function UpdateOrder(props) {
                         </ControlLabel>
                       </div>
                     </FormGroup>
-                  </div>
+                  </div> */}
 
                   {/* =========================================== */}
 
-                  <div>
+                  {/* <div>
                     <FormGroup>
                       <div>
                         <Field
@@ -367,7 +552,7 @@ function UpdateOrder(props) {
                       </div>
                     </FormGroup>
                     <FormGroup></FormGroup>
-                  </div>
+                  </div> */}
 
                   <ButtonToolbar className={cx("form_footer")}>
                     <Button
