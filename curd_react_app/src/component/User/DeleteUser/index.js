@@ -5,14 +5,20 @@ import { Form } from "react-final-form";
 import classNames from "classnames/bind";
 import styles from "./DeleteUser.model.scss";
 import { handleDeleteUser } from "../../../Api/ApiUser";
+import PropTypes from "prop-types";
 
 const cx = classNames.bind(styles);
 
+DeleteUser.propTypes = {
+  id: PropTypes.string.isRequired,
+  deleteUser: PropTypes.func.isRequired,
+};
 function DeleteUser(props) {
-  const id = props.id;
+  const { id, deleteUser } = props;
+
   const onSubmit = async () => {
-      await handleDeleteUser(id);
-      props.deleteUser(id);
+    await handleDeleteUser(id);
+    deleteUser(id);
   };
 
   // bật tắt module
@@ -22,7 +28,6 @@ function DeleteUser(props) {
   };
   const handleClose = () => setOpen(false);
 
-  
   return (
     <div className={cx("delete_user")}>
       <Icon
@@ -35,17 +40,17 @@ function DeleteUser(props) {
           <Modal.Title>Xóa khách hàng</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Placeholder.Graph height="40px" style={{background: "#fff"}}>
+          <Placeholder.Graph height="40px" style={{ background: "#fff" }}>
             <Form
               onSubmit={onSubmit}
               render={({ handleSubmit }) => (
                 <form onSubmit={handleSubmit} className={cx("delete_form")}>
                   Bạn chắc chắn muốn xóa khách hàng này?
-                  <div >
+                  <div>
                     <div>
                       <Modal.Footer className={cx("delete_footer")}>
                         <Button
-                        className={cx("button_delete")}
+                          className={cx("button_delete")}
                           onClick={handleClose}
                           type="submit"
                           appearance="primary"

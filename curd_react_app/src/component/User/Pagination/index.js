@@ -5,11 +5,18 @@ import { Icon } from "rsuite";
 import DeleteUser from "../DeleteUser";
 import UpdateUser from "../UpdateUser";
 import styles from "./Paghination.module.scss";
+import PropTypes from "prop-types"
+
 
 const cx = classNames.bind(styles);
 
+Paghination.propTypes = {
+  data: PropTypes.array.isRequired,
+  handleDelete: PropTypes.func.isRequired,
+  handleUpdate: PropTypes.func.isRequired
+}
 function Paghination(props) {
-  const data = props.data;
+  const {data, handleUpdate, handleDelete} = props
   const [urlImage, setUrlImage] = useState();
   const [showImage, setShowImage] = useState(false);
   const [showInformation, setShowInformation] = useState(false);
@@ -101,11 +108,11 @@ function Paghination(props) {
                     <td className={cx("text_color")}>
                       <div className={cx("table_option")}>
                         <UpdateUser
-                          updateUser={props.handleUpdate}
+                          updateUser={handleUpdate}
                           id={item.id}
                         />
                         <DeleteUser
-                          deleteUser={props.handleDelete}
+                          deleteUser={handleDelete}
                           id={item.id}
                         />
                       </div>
@@ -159,11 +166,11 @@ function Paghination(props) {
                     <td className={cx("text_color")}>
                       <div className={cx("table_option")}>
                         <UpdateUser
-                          updateUser={props.handleUpdate}
+                          updateUser={handleUpdate}
                           id={item.id}
                         />
                         <DeleteUser
-                          deleteUser={props.handleDelete}
+                          deleteUser={handleDelete}
                           id={item.id}
                         />
                       </div>

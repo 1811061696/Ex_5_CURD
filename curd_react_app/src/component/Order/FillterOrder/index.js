@@ -10,11 +10,18 @@ import {
   Form as RSForm,
   FormGroup,
 } from "rsuite";
+import PropTypes from "prop-types";
+
 import { InputCustomField } from "../../../FinalFormComponents";
 import styles from "./FillterOrder.module.scss";
 const cx = classNames.bind(styles);
 
+FillterOrder.propTypes = {
+  data: PropTypes.array.isRequired,
+  onGetdata: PropTypes.func.isRequired,
+};
 function FillterOrder(props) {
+  const { data, onGetdata } = props;
 
   const onSubmit = (values) => {
     let newArrUser = [];
@@ -22,8 +29,7 @@ function FillterOrder(props) {
       ...values,
     };
     // eslint-disable-next-line array-callback-return
-    props.data.map((item) => {
-
+    data.map((item) => {
       if (
         newValue.userName !== undefined &&
         newValue.id !== undefined &&
@@ -50,7 +56,7 @@ function FillterOrder(props) {
     if (newArrUser.length === 0) {
       alert("Không có khách hàng phù hợp!!!");
     } else {
-      props.onGetdata(newArrUser);
+      onGetdata(newArrUser);
       newArrUser = [];
     }
     // handleClose();

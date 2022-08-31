@@ -3,16 +3,22 @@ import { useState } from "react";
 import { Form } from "react-final-form";
 
 import classNames from "classnames/bind";
+import PropTypes from "prop-types";
 import styles from "./DeleteOrder.module.scss";
 import { handleDeleteOrder } from "../../../Api/ApiOrder";
 
 const cx = classNames.bind(styles);
 
+DeleteOrder.propTypes = {
+  data: PropTypes.array.isRequired,
+  deleteUser: PropTypes.func.isRequired,
+};
+
 function DeleteOrder(props) {
-  const id = props.id;
+  const { id, deleteUser } = props;
   const onSubmit = async () => {
     await handleDeleteOrder(id);
-    props.deleteUser(id);
+    deleteUser(id);
   };
 
   // bật tắt module

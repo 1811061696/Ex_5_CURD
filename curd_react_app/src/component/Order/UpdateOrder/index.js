@@ -23,6 +23,7 @@ import {
   InputPickerCustomField,
   NumberCustomField,
 } from "../../../FinalFormComponents";
+import PropTypes from "prop-types"
 import arrayMutators from "final-form-arrays";
 import { FieldArray } from "react-final-form-arrays";
 import styles from "./UpdateOrder.module.scss";
@@ -42,8 +43,14 @@ const getIdProduct = (listProduct, unitPrice) => {
 };
 const required = (value) => (value ? undefined : "Required");
 
+UpdateOrder.propTypes = {
+  data: PropTypes.array.isRequired,
+  updateUser: PropTypes.func.isRequired,
+};
+
 function UpdateOrder(props) {
-  const id = props.id;
+  const { id, updateUser } = props;
+
   const [order, setOrder] = useState([]);
   const [arrUser, setArrUser] = useState([]);
   const [idNameUser, setIdNameUser] = useState();
@@ -174,7 +181,7 @@ function UpdateOrder(props) {
     console.log(newValue);
     // gọi Api post user và truyền đi data
     await handleUpdateOrder(newValue, id);
-    props.updateUser(newValue, id);
+    updateUser(newValue, id);
     setOrder(newValue);
     handleClose();
   };
@@ -205,11 +212,8 @@ function UpdateOrder(props) {
             onSubmit={onSubmit}
             initialValues={{
               userName: order.userName,
-              addressOrder: valueAddress,
-              phone: phone,
-              productName: order.productName,
               total: order.total,
-              orderItem: order.orderItem
+              orderItem: order.orderItem,
             }}
             mutators={{ ...arrayMutators }}
             render={({

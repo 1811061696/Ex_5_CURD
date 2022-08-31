@@ -23,11 +23,18 @@ import { getCity, getDistrist } from "../../../Api/Apiaddress";
 import { getOneUser, handleUpdateUser } from "../../../Api/ApiUser";
 import { getIdCity, handleCustomDate } from "../AddUser";
 import styles from "./UpdateUser.module.scss";
+import PropTypes from "prop-types";
+
 const cx = classNames.bind(styles);
 
+UpdateUser.propTypes = {
+  data: PropTypes.array.isRequired,
+  updateUser: PropTypes.func.isRequired,
+};
+
 function UpdateUser(props) {
+  const { id, updateUser } = props;
   const formRef = useRef();
-  const id = props.id;
 
   const [user, setUser] = useState([]);
   const [arrCity, setArrayCity] = useState([]); // data thành phố
@@ -89,7 +96,7 @@ function UpdateUser(props) {
     };
 
     await handleUpdateUser(newValue, id);
-    props.updateUser(newValue, id);
+    updateUser(newValue, id);
     setUser(newValue);
     handleClose();
   };
@@ -148,7 +155,6 @@ function UpdateUser(props) {
       render.readAsDataURL(file);
     }
   };
-
 
   // handle Sex
   const handleSex = (e) => {

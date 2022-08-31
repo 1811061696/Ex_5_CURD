@@ -22,6 +22,8 @@ import { Field, Form as FieldForm } from "react-final-form";
 import { getCity, getDistrist } from "../../../Api/Apiaddress";
 import { createUser } from "../../../Api/ApiUser";
 import styles from "./Adduser.module.scss";
+import PropTypes from "prop-types"
+
 
 const cx = classNames.bind(styles);
 
@@ -75,7 +77,15 @@ export const handleCustomDate = (value) => {
   }
 };
 
+
+AddUser.propTypes = {
+  data: PropTypes.array.isRequired,
+  onGetdata: PropTypes.func.isRequired
+}
 function AddUser(props) {
+
+  const {data, onGetdata} = props
+
   const formRef = useRef();
 
   let codeCity;
@@ -131,7 +141,7 @@ function AddUser(props) {
 
     // gọi Api post user và truyền đi data
     await createUser(newValue);
-    props.onGetdata(newValue); // render lại table
+    onGetdata(newValue); // render lại table
     handleClose();
   };
 

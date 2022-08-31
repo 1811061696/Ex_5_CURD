@@ -18,10 +18,18 @@ import {
 } from "../../../FinalFormComponents";
 import { getIdCity, handleCustomDate } from "../AddUser";
 import styles from "./FillterUser.module.scss";
+import PropTypes from "prop-types"
+
 
 const cx = classNames.bind(styles);
 
+
+FillterUser.propTypes = {
+  data: PropTypes.array.isRequired,
+  onGetdata: PropTypes.func.isRequired
+}
 function FillterUser(props) {
+  const {data, onGetdata} = props
   const formRef = useRef();
 
   let codeCity;
@@ -71,7 +79,7 @@ function FillterUser(props) {
     };
 
     // eslint-disable-next-line array-callback-return
-    props.data.map((item) => {
+    data.map((item) => {
       if (
         newValue.name !== undefined &&
         newValue.phone !== undefined &&
@@ -104,7 +112,7 @@ function FillterUser(props) {
     if (newArrUser.length === 0) {
       alert("Không có khách hàng phù hợp!!!");
     } else {
-      props.onGetdata(newArrUser);
+      onGetdata(newArrUser);
       newArrUser = [];
     }
     handleClose();

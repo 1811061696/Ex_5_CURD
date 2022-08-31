@@ -1,14 +1,16 @@
 import classNames from "classnames/bind";
+import arrayMutators from "final-form-arrays";
 import { useEffect, useState } from "react";
 import { Field, Form as FieldForm } from "react-final-form";
+import { FieldArray } from "react-final-form-arrays";
 import {
   Button,
   ButtonToolbar,
   ControlLabel,
   Form as RSForm,
   FormGroup,
-  Modal,
   Icon,
+  Modal,
 } from "rsuite";
 import {
   createOrder,
@@ -22,9 +24,9 @@ import {
   InputPickerCustomField,
   NumberCustomField,
 } from "../../../FinalFormComponents";
-import arrayMutators from "final-form-arrays";
-import { FieldArray } from "react-final-form-arrays";
 import styles from "./AddOrder.module.scss";
+import PropTypes from "prop-types";
+
 const cx = classNames.bind(styles);
 
 export const getIdUser = (listUser, valueAddress) => {
@@ -52,7 +54,13 @@ export const handleCustomNumber = (value) => {
 // valid
 const required = (value) => (value ? undefined : "Required");
 
+AddOrder.propTypes = {
+  data: PropTypes.array.isRequired,
+  onGetdata: PropTypes.func.isRequired,
+};
 function AddOrder(props) {
+  const { data, onGetdata } = props;
+
   const [arrUser, setArrUser] = useState([]);
   const [idNameUser, setIdNameUser] = useState();
   const [valueAddress, setValueAddress] = useState("");
@@ -154,22 +162,21 @@ function AddOrder(props) {
   };
 
   const onSubmit = async (values) => {
+    let allTotal = 0;
+    for (let i = 0; i < values.orderItem.length; i++) {
+      allTotal += values.orderItem[i].total;
+    }
 
-    let allTotal = 0
-    for(let i= 0; i < values.orderItem.length; i++) {
-      allTotal += values.orderItem[i].total
-    }    
-
-    setTotal(allTotal)
+    setTotal(allTotal);
     const total = handleCustomNumber(allTotal);
     const newValue = {
       ...values,
-      total
+      total,
     };
     console.log(newValue);
     // gọi Api post user và truyền đi data
     await createOrder(newValue);
-    props.onGetdata(newValue); // render lại table
+    onGetdata(newValue); // render lại table
     handleClose();
     alert("Thêm thành công");
   };
@@ -289,7 +296,6 @@ function AddOrder(props) {
 
                     <FormGroup></FormGroup>
                   </div>
-
 
                   <div>
                     <div className={cx("list_order")}>

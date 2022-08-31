@@ -8,11 +8,18 @@ import { useEffect, useRef, useState } from "react";
 import { Icon } from "rsuite";
 import { getIdProduct, getIdUser, handleCustomNumber } from "../AddOrder";
 import { getAllProduct, getAllUser, getOneUser } from "../../../Api/ApiOrder";
+import PropTypes from "prop-types";
 
 const cx = classNames.bind(styles);
 
+PaginationOrder.propTypes = {
+  data: PropTypes.array.isRequired,
+  handleDelete: PropTypes.func.isRequired,
+  handleUpdate: PropTypes.func.isRequired,
+};
+
 function PaginationOrder(props) {
-  const data = props.data;
+  const { data, handleDelete, handleUpdate } = props;
   const [dataUser, setDataUser] = useState();
   const [user, setUser] = useState();
   const [dataProduct, setDataProduct] = useState();
@@ -217,14 +224,8 @@ function PaginationOrder(props) {
 
                     <td>
                       <div className={cx("table_option")}>
-                        <UpdateOrder
-                          updateUser={props.handleUpdate}
-                          id={item.id}
-                        />
-                        <DeleteOrder
-                          deleteUser={props.handleDelete}
-                          id={item.id}
-                        />
+                        <UpdateOrder updateUser={handleUpdate} id={item.id} />
+                        <DeleteOrder deleteUser={handleDelete} id={item.id} />
                       </div>
                     </td>
                   </tr>
@@ -375,14 +376,8 @@ function PaginationOrder(props) {
 
                     <td>
                       <div className={cx("table_option")}>
-                        <UpdateOrder
-                          updateUser={props.handleUpdate}
-                          id={item.id}
-                        />
-                        <DeleteOrder
-                          deleteUser={props.handleDelete}
-                          id={item.id}
-                        />
+                        <UpdateOrder updateUser={handleUpdate} id={item.id} />
+                        <DeleteOrder deleteUser={handleDelete} id={item.id} />
                       </div>
                     </td>
                   </tr>
